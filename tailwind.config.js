@@ -20,6 +20,7 @@ export const theme = {
   extend: {
     colors: {
       amgreen: "#00665E",
+      amlime: "#CEDC00",
       border: "hsl(var(--border))",
       input: "hsl(var(--input))",
       ring: "hsl(var(--ring))",
