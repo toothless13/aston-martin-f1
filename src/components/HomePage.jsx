@@ -1,32 +1,39 @@
 import { useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { fetchRaces, fetchYears } from "@/api/requests";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select"
-
 
 const HomePage = () => {
 
   const [years, setYears] = useState([]);
   const [races, setRaces] = useState([]);
   const [year, setYear] = useState("");
+  const [race, setRace] = useState("");
+  const [circuitInfo, setCircuitInfo] = useState(
+  //   {
+  //   raceName: "",
+  //   circuitName: "",
+  //   round: "",
+  //   date: "",
+  // }
+  );
 
   const { data: raceYears, status: yearsStatus, error: yearsError } = useQuery({
     queryFn: fetchYears,
     queryKey: ["years"],
   });
 
-  const { data: seasonRaces, status: raceStatus, error: raceError } = useQuery({
-    queryFn: fetchRaces(year),
-    queryKey: ["races", year],
-    refetchOnWindowFocus: false,
-    enabled: !!year,
-  })
+  // const { data: seasonRaces, status: raceStatus, error: raceError, refetch } = useQuery({
+  //   queryFn: fetchRaces(year),
+  //   queryKey: ["races", year],
+  //   refetchOnWindowFocus: false,
+  //   // enabled: !!year,
+  //   enabled: false
+  // })
+
+  const seasonRaces = async (year) => {
+    const races = await fetchRaces(year);
+    setRaces(races);
+  }
 
   useEffect(() => {
     if (raceYears !== undefined) {
@@ -36,22 +43,22 @@ const HomePage = () => {
     }
   }, [raceYears]);
 
-  useEffect(() => {
-    if (seasonRaces !== undefined) {
-      const racesArr = seasonRaces.map(race => console.log(race));
-
-    }
-  }, [seasonRaces]);
-
-  const handleChange = e => {
+  const handleRaceSelect = (e) => {
     e.preventDefault();
-    // console.log(e);
-    // setYear(e.target.value);
-    const formData = new FormData(e.target);
-    // const raceYear = formData.get("race-year");
-    const raceYear = formData.values();
-    console.log(raceYear);
+    const raceName = e.target.value;
+    const raceInfo = races.filter(race => race.raceName === raceName);
+    // console.log(raceInfo);
+    setCircuitInfo(raceInfo);
   }
+
+  // useEffect(() => {
+  //   // if (year !== undefined) {
+  //     // refetch();
+  //     // const racesArr = seasonRaces.map(race => console.log(race));
+  //     seasonRaces(year);
+      
+  //   // }
+  // }, [year]);
 
   if (yearsStatus === "loading") {
     console.log(yearsStatus)
@@ -65,17 +72,18 @@ const HomePage = () => {
   return (
     <div>
       HomePage
-      <form>
-      {years !== undefined && <Select className="text-black cursor-pointer" value={year} onChange={e => console.log(e.target.value)}>
-        <SelectTrigger className="w-[180px] text-black" onSelect={handleChange}>
-          <SelectValue value={year}/>
-        </SelectTrigger>
-        <SelectContent onSelect={handleChange}>
-          {years.map(year => <SelectItem id="race-year" name="race-year" key={year} value={year} className="cursor-pointer" onSelect={handleChange}>{year}</SelectItem>)}
-        </SelectContent>
-      </Select>}
-      <button type="submit">Select Year</button>
-      </form>
+      <select className="text-black" value={year} onChange={e => {setYear(e.target.value); seasonRaces(e.target.value); setCircuitInfo(undefined)}}>
+        {years.map(y => <option key={y} value={y}>{y}</option>)}
+      </select>
+        {year !== undefined && <select className="text-black" value={race} onChange={e => {setRace(e.target.value); handleRaceSelect(e);}}>
+          {races.map(r => <option key={r.round} value={r.raceName}>{r.raceName}</option>)}
+        </select>}
+        {circuitInfo !== undefined && <div>
+          <p>{circuitInfo[0].raceName}</p>
+          <p>{circuitInfo[0].Circuit.circuitName}</p>
+          <p>{circuitInfo[0].round}</p>
+          <p>{circuitInfo[0].date}</p>
+        </div>}
     </div>
   )
 }

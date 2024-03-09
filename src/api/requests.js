@@ -9,6 +9,6 @@ export function fetchRaces(year) {
   console.log(year);
   if (year) {
     return axios.get(`https://ergast.com/api/f1/${year}.json?limit=30`)
-  .then(res => res.data);
+  .then(res => res.data.MRData.RaceTable.Races);
   }
 }
