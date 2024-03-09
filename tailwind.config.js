@@ -1,4 +1,6 @@
+/* eslint-disable no-undef */
 /** @type {import('tailwindcss').Config} */
+
 export const darkMode = ["class"];
 export const content = [
   './pages/**/*.{js,jsx}',
@@ -17,6 +19,7 @@ export const theme = {
   },
   extend: {
     colors: {
+      amgreen: "#00665E",
       border: "hsl(var(--border))",
       input: "hsl(var(--input))",
       ring: "hsl(var(--ring))",
