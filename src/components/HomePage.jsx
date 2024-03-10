@@ -1,4 +1,4 @@
-import { useQuery } from "@tanstack/react-query";
+import { useQueries, useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { fetchRaces, fetchYears } from "@/api/requests";
 
@@ -20,7 +20,19 @@ const HomePage = () => {
   const { data: raceYears, status: yearsStatus, error: yearsError } = useQuery({
     queryFn: fetchYears,
     queryKey: ["years"],
+    select: (years) => years.map((year) => year.season),
   });
+
+  const seasonRaces = useQueries({
+    queries: raceYears
+      ? raceYears.map((year) => {
+        return {
+          queryKey: ["races", year],
+          queryFn: () => fetchRaces(year)
+        }
+      })
+      : [],
+  })
 
   // const { data: seasonRaces, status: raceStatus, error: raceError, refetch } = useQuery({
   //   queryFn: fetchRaces(year),
@@ -30,10 +42,12 @@ const HomePage = () => {
   //   enabled: false
   // })
 
-  const seasonRaces = async (year) => {
-    const races = await fetchRaces(year);
-    setRaces(races);
-  }
+
+
+  // const seasonRaces = async (year) => {
+  //   const races = await fetchRaces(year);
+  //   setRaces(races);
+  // }
 
   useEffect(() => {
     if (raceYears !== undefined) {
@@ -42,6 +56,14 @@ const HomePage = () => {
       setYears(yearsArr);
     }
   }, [raceYears]);
+
+  // const { data: seasonRaces, status: raceStatus, error: raceError, refetch } = useQuery({
+  //     queryFn: fetchRaces(year),
+  //     queryKey: ["races", year],
+  //     refetchOnWindowFocus: false,
+  //     // enabled: !!year,
+  //     enabled: false
+  //   })
 
   const handleRaceSelect = (e) => {
     e.preventDefault();
@@ -52,13 +74,9 @@ const HomePage = () => {
   }
 
   // useEffect(() => {
-  //   // if (year !== undefined) {
-  //     // refetch();
-  //     // const racesArr = seasonRaces.map(race => console.log(race));
-  //     seasonRaces(year);
-      
-  //   // }
-  // }, [year]);
+  //   refetch();
+  //   setRaces(seasonRaces);
+  // }, [year, seasonRaces, refetch]);
 
   if (yearsStatus === "loading") {
     console.log(yearsStatus)
@@ -72,14 +90,15 @@ const HomePage = () => {
   return (
     <div>
       HomePage
-      <select className="text-black" value={year} onChange={e => {setYear(e.target.value); seasonRaces(e.target.value); setCircuitInfo(undefined)}}>
+      <select className="text-black" value={year} onChange={e => {setYear(e.target.value); setCircuitInfo(undefined)}}>
         <option value="" defaultValue hidden>Select a Year</option>
         {years.map(y => <option key={y} value={y}>{y}</option>)}
       </select>
-        {year !== undefined && <select className="text-black" value={race} onChange={e => {setRace(e.target.value); handleRaceSelect(e);}}>
+        {/* {year !== undefined && <select className="text-black" value={race} onChange={e => {setRace(e.target.value); handleRaceSelect(e);}}>
           <option value="" defaultValue hidden>Select a Race</option>
+          {console.log(races)}
           {races.map(r => <option key={r.round} value={r.raceName}>{r.raceName}</option>)}
-        </select>}
+        </select>} */}
         {circuitInfo !== undefined && <div>
           <p>{circuitInfo[0].raceName}</p>
           <p>{circuitInfo[0].Circuit.circuitName}</p>
