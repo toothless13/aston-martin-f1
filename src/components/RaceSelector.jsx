@@ -1,4 +1,4 @@
-const RacePicker = ({ race, setRace, handleRaceSelect, races }) => {
+const RaceSelector = ({ race, setRace, handleRaceSelect, races }) => {
   return (
         <select className="text-black" value={race} onChange={e => {setRace(e.target.value); handleRaceSelect(e);}}>
           <option value="" defaultValue hidden>Select a Race</option>
@@ -7,4 +7,4 @@ const RacePicker = ({ race, setRace, handleRaceSelect, races }) => {
   )
 }
 
-export default RacePicker
+export default RaceSelector

@@ -1,9 +1,9 @@
 import { useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { fetchRaces, fetchYears } from "@/api/requests";
-import YearPicker from "./YearPicker";
-import RacePicker from "./RacePicker";
 import CircuitInfo from "./CircuitInfo";
+import YearSelector from "./YearSelector";
+import RaceSelector from "./RaceSelector";
 
 const HomePage = () => {
 
@@ -50,9 +50,9 @@ const HomePage = () => {
 
   return (
     <div>
-      <YearPicker year={year} setYear={setYear} seasonRaces={seasonRaces} setCircuitInfo={setCircuitInfo} years={years} />
+      <YearSelector year={year} setYear={setYear} seasonRaces={seasonRaces} setCircuitInfo={setCircuitInfo} years={years} />
         {year !== undefined && 
-          <RacePicker race={race} setRace={setRace} handleRaceSelect={handleRaceSelect} races={races} />
+          <RaceSelector race={race} setRace={setRace} handleRaceSelect={handleRaceSelect} races={races} />
         }
         {circuitInfo !== undefined && <CircuitInfo circuitInfo={circuitInfo} /> }
     </div>
