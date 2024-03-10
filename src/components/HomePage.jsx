@@ -73,9 +73,11 @@ const HomePage = () => {
     <div>
       HomePage
       <select className="text-black" value={year} onChange={e => {setYear(e.target.value); seasonRaces(e.target.value); setCircuitInfo(undefined)}}>
+        <option value="" default selected hidden>Select a Year</option>
         {years.map(y => <option key={y} value={y}>{y}</option>)}
       </select>
         {year !== undefined && <select className="text-black" value={race} onChange={e => {setRace(e.target.value); handleRaceSelect(e);}}>
+          <option value="" default selected hidden>Select a Race</option>
           {races.map(r => <option key={r.round} value={r.raceName}>{r.raceName}</option>)}
         </select>}
         {circuitInfo !== undefined && <div>
