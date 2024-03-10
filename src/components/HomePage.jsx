@@ -1,6 +1,9 @@
 import { useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { fetchRaces, fetchYears } from "@/api/requests";
+import YearPicker from "./YearPicker";
+import RacePicker from "./RacePicker";
+import CircuitInfo from "./CircuitInfo";
 
 const HomePage = () => {
 
@@ -8,27 +11,12 @@ const HomePage = () => {
   const [races, setRaces] = useState([]);
   const [year, setYear] = useState("");
   const [race, setRace] = useState("");
-  const [circuitInfo, setCircuitInfo] = useState(
-  //   {
-  //   raceName: "",
-  //   circuitName: "",
-  //   round: "",
-  //   date: "",
-  // }
-  );
+  const [circuitInfo, setCircuitInfo] = useState();
 
   const { data: raceYears, status: yearsStatus, error: yearsError } = useQuery({
     queryFn: fetchYears,
     queryKey: ["years"],
   });
-
-  // const { data: seasonRaces, status: raceStatus, error: raceError, refetch } = useQuery({
-  //   queryFn: fetchRaces(year),
-  //   queryKey: ["races", year],
-  //   refetchOnWindowFocus: false,
-  //   // enabled: !!year,
-  //   enabled: false
-  // })
 
   const seasonRaces = async (year) => {
     const races = await fetchRaces(year);
@@ -51,15 +39,6 @@ const HomePage = () => {
     setCircuitInfo(raceInfo);
   }
 
-  // useEffect(() => {
-  //   // if (year !== undefined) {
-  //     // refetch();
-  //     // const racesArr = seasonRaces.map(race => console.log(race));
-  //     seasonRaces(year);
-      
-  //   // }
-  // }, [year]);
-
   if (yearsStatus === "loading") {
     console.log(yearsStatus)
     return <div>Loading...</div>
@@ -71,21 +50,11 @@ const HomePage = () => {
 
   return (
     <div>
-      HomePage
-      <select className="text-black" value={year} onChange={e => {setYear(e.target.value); seasonRaces(e.target.value); setCircuitInfo(undefined)}}>
-        <option value="" defaultValue hidden>Select a Year</option>
-        {years.map(y => <option key={y} value={y}>{y}</option>)}
-      </select>
-        {year !== undefined && <select className="text-black" value={race} onChange={e => {setRace(e.target.value); handleRaceSelect(e);}}>
-          <option value="" defaultValue hidden>Select a Race</option>
-          {races.map(r => <option key={r.round} value={r.raceName}>{r.raceName}</option>)}
-        </select>}
-        {circuitInfo !== undefined && <div>
-          <p>{circuitInfo[0].raceName}</p>
-          <p>{circuitInfo[0].Circuit.circuitName}</p>
-          <p>{circuitInfo[0].round}</p>
-          <p>{circuitInfo[0].date}</p>
-        </div>}
+      <YearPicker year={year} setYear={setYear} seasonRaces={seasonRaces} setCircuitInfo={setCircuitInfo} years={years} />
+        {year !== undefined && 
+          <RacePicker race={race} setRace={setRace} handleRaceSelect={handleRaceSelect} races={races} />
+        }
+        {circuitInfo !== undefined && <CircuitInfo circuitInfo={circuitInfo} /> }
     </div>
   )
 }
