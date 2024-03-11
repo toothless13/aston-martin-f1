@@ -4,6 +4,7 @@ import { fetchQualiResults, fetchRaces, fetchYears } from "@/api/requests";
 import CircuitInfo from "./CircuitInfo";
 import YearSelector from "./YearSelector";
 import RaceSelector from "./RaceSelector";
+import QualiTable from "./QualiTable";
 
 const HomePage = () => {
 
@@ -83,9 +84,10 @@ const HomePage = () => {
         }
         {circuitInfo !== undefined && <CircuitInfo circuitInfo={circuitInfo} /> }
       {quali !== undefined  && console.log(quali)}
-      {quali !== undefined && <div>{quali.MRData.RaceTable.Races[0].QualifyingResults[0].Driver.driverId}</div>}
+      {/* {quali !== undefined && <div>{quali.MRData.RaceTable.Races[0].QualifyingResults[0].Driver.driverId}</div>}
       {quali !== undefined && <div>{console.log(quali.MRData.RaceTable)}</div>}
-      {quali !== undefined && <div>{quali.MRData.RaceTable.Races[0].QualifyingResults.map(driver => <p key={driver.position}>{driver.position} - {driver.Driver.givenName} {driver.Driver.familyName} Constructor: {driver.Constructor.name}</p>)}</div>}
+      {quali !== undefined && <div>{quali.MRData.RaceTable.Races[0].QualifyingResults.map(driver => <p key={driver.position}>{driver.position} - {driver.Driver.givenName} {driver.Driver.familyName} Constructor: {driver.Constructor.name}</p>)}</div>} */}
+      {quali !== undefined && <QualiTable quali={quali} />}
     </div>
   )
 }
