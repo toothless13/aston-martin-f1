@@ -40,10 +40,19 @@ const HomePage = () => {
     setCircuitInfo(raceInfo);
   }
 
+  // const qualiResults = async (year, race) => {
+  //   const numYear = Number(year);
+  //   if (numYear > 1993) {
+  //     const quali = await fetchQualiResults(year, race);
+  //     setQuali(quali);
+  //   } else {
+  //     console.log("No quali results for this time period");
+  //   }
+  // }
+
   const qualiResults = async (year, race) => {
-    const numYear = Number(year);
-    if (numYear > 1993) {
-      const quali = await fetchQualiResults(year, race);
+    const quali = await fetchQualiResults(year, race);
+    if (quali.MRData.RaceTable.Races.length > 0) {
       setQuali(quali);
     } else {
       console.log("No quali results for this time period");
