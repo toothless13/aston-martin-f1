@@ -5,7 +5,6 @@ import CircuitInfo from "./CircuitInfo";
 import YearSelector from "./YearSelector";
 import RaceSelector from "./RaceSelector";
 import QualiTable from "./QualiTable";
-import QualiTable2 from "./QualiTable2";
 
 const HomePage = () => {
 
@@ -88,8 +87,7 @@ const HomePage = () => {
       {/* {quali !== undefined && <div>{quali.MRData.RaceTable.Races[0].QualifyingResults[0].Driver.driverId}</div>}
       {quali !== undefined && <div>{console.log(quali.MRData.RaceTable)}</div>}
       {quali !== undefined && <div>{quali.MRData.RaceTable.Races[0].QualifyingResults.map(driver => <p key={driver.position}>{driver.position} - {driver.Driver.givenName} {driver.Driver.familyName} Constructor: {driver.Constructor.name}</p>)}</div>} */}
-      {/* {quali !== undefined && <QualiTable quali={quali} />} */}
-      {quali !== undefined && <QualiTable2 quali={quali} />}
+      {quali !== undefined && <QualiTable quali={quali} />}
     </div>
   )
 }
