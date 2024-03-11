@@ -51,7 +51,7 @@ const HomePage = () => {
   return (
     <div>
       <YearSelector year={year} setYear={setYear} seasonRaces={seasonRaces} setCircuitInfo={setCircuitInfo} years={years} />
-        {year !== undefined && 
+        {year !== "" && 
           <RaceSelector race={race} setRace={setRace} handleRaceSelect={handleRaceSelect} races={races} />
         }
         {circuitInfo !== undefined && <CircuitInfo circuitInfo={circuitInfo} /> }
