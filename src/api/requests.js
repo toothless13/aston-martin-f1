@@ -20,3 +20,10 @@ export function fetchQualiResults(year, race) {
     .then(res => res.data);
   }
 }
+
+export function fetchRaceResults(year, race) {
+  if (year && race) {
+    return axios.get(`https://ergast.com/api/f1/${year}/${race}/results.json`)
+    .then(res => res.data);
+  }
+}
