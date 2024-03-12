@@ -215,26 +215,33 @@ const HomePage = () => {
     // console.log(driversInfo);
     const totalLaps = driversInfo[0].completedLaps;
     const lapsArray = [];
-    for (let i = 1; i < totalLaps; i++) {
+    for (let i = 0; i <= totalLaps; i++) {
       lapsArray.push(i);
     }
-
-    // const driverLaps = await fetchLaps(year, race, driversInfo[0].driverId);
-    // console.log(driverLaps);
-
-    const driversPositionsInfo = []; 
-    
+    // console.log(lapsArray);
+    const driverLapsInfo = [];
     driversInfo.forEach(async driver => {
       const driverLaps = await fetchLaps(year, race, driver.driverId);
       // console.log(driverLaps);
-      // const driversPositionsArray = driverLaps.MRData.RaceTable.Races?[0]
-      let driverPositionsArray = [];
-      if (driverLaps.MRData.RaceTable.Races.length > 0) {
-        driverPositionsArray = driverLaps.MRData.RaceTable.Races[0].Laps.map(lap => Number(lap.Timings[0].position));
-        return driverPositionsArray;
-      }
-      console.log(driverPositionsArray);
-  });
+      const driverLapsArray = [driver.grid];
+      driverLaps.MRData.RaceTable.Races[0].Laps.forEach(lap => {
+        driverLapsArray.push(lap.Timings[0].position);
+      });
+      driverLapsInfo.push({
+        label: driver.name,
+        data: driverLapsArray,
+        backgroundColor: "#CEDC00",
+        borderColor: "black",
+        pointBorderColor: "#CEDC00",
+        tension: 0.3
+      });
+    })
+    console.log(driverLapsInfo);
+    setRacePositions({
+      labels: lapsArray,
+      datasets: driverLapsInfo
+    });
+
 }
 
   useEffect(() => {
@@ -249,6 +256,7 @@ const HomePage = () => {
 
   useEffect(() => {
     if (raceResult) {
+      console.log("called");
       // console.log(raceResult);
       racePositionsData(raceResult);
       const numOfDrivers = raceResult.MRData.total;
