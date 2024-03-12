@@ -34,3 +34,10 @@ export function fetchSprint(year, race) {
     .then(res => res.data);
   }
 }
+
+export function fetchLaps(year, race, driver) {
+  if (year && race && driver) {
+    return axios.get(`https://ergast.com/api/f1/${year}/${race}/drivers/${driver}/laps.json?limit=100`)
+    .then(res => res.data);
+  }
+}

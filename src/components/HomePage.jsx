@@ -1,12 +1,16 @@
 import { useQuery } from "@tanstack/react-query";
-import { useEffect, useState } from "react";
-import { fetchQualiResults, fetchRaceResults, fetchRaces, fetchSprint, fetchYears } from "@/api/requests";
+import { useEffect, useRef, useState } from "react";
+import { fetchLaps, fetchQualiResults, fetchRaceResults, fetchRaces, fetchSprint, fetchYears } from "@/api/requests";
 import CircuitInfo from "./CircuitInfo";
 import YearSelector from "./YearSelector";
 import RaceSelector from "./RaceSelector";
 import QualiTable from "./QualiTable";
 import RaceTable from "./RaceTable";
 import SprintTable from "./SprintTable";
+import { Line } from "react-chartjs-2";
+import { Chart as ChartJS, LineElement, CategoryScale, LinearScale, PointElement, Legend, Tooltip } from "chart.js";
+
+ChartJS.register(LineElement, CategoryScale, LinearScale, PointElement, Legend, Tooltip);
 
 const HomePage = () => {
 
@@ -21,6 +25,7 @@ const HomePage = () => {
   const [showQuali, setShowQuali] = useState(false);
   const [showSprint, setShowSprint] = useState(false);
   const [showRace, setShowRace] = useState(false);
+  const [racePositions, setRacePositions] = useState();
 
   const { data: raceYears, status: yearsStatus, error: yearsError } = useQuery({
     queryFn: fetchYears,
@@ -35,7 +40,6 @@ const HomePage = () => {
   useEffect(() => {
     if (raceYears !== undefined) {
       const yearsArr = raceYears.map(year => year.season);
-      // console.log(yearsArr);
       setYears(yearsArr);
     }
   }, [raceYears]);
@@ -44,7 +48,6 @@ const HomePage = () => {
     e.preventDefault();
     const raceName = e.target.value;
     const raceInfo = races.filter(race => race.raceName === raceName);
-    // console.log(raceInfo);
     setCircuitInfo(raceInfo);
   }
 
@@ -79,7 +82,91 @@ const HomePage = () => {
       console.log("There was no Sprint at this race event");
     }
   }
-  
+
+  const racePositionsData = async raceResult => {
+    // const laps = raceResult.MRData.RaceTable.Races[0].Results[0].laps;
+    const year = raceResult.MRData.RaceTable.season;
+    const race = raceResult.MRData.RaceTable.round;
+    const driverId = raceResult.MRData.RaceTable.Races[0].Results[0].Driver.driverId;
+    const driverName = `${raceResult.MRData.RaceTable.Races[0].Results[0].Driver.givenName} ${raceResult.MRData.RaceTable.Races[0].Results[0].Driver.familyName}`
+    const driverStartPosition = raceResult.MRData.RaceTable.Races[0].Results[0].grid;
+    const testDriverStartPosition = raceResult.MRData.RaceTable.Races[0].Results[10].grid;
+    
+    // const lapsArray = [];
+    // for (let i = 0; i < laps; i++) {
+    //   lapsArray.push(i + 1);
+    // }
+    // console.log(lapsArray);
+    // console.log(raceResult.MRData.RaceTable.Races[0].Results)
+
+    const drivers = raceResult.MRData.RaceTable.Races[0].Results;
+    // console.log(drivers);
+    const driverPositionsInfo = [];
+    drivers.forEach(async driver => {
+      const driverId = driver.Driver.driverId;
+      const driverName = `${driver.Driver.givenName} ${driver.Driver.familyName}`;
+      const startPosition = driver.grid;
+      const driverPositions = await fetchLaps(year, race, driverId);
+      // console.log(driverPositions);
+      const laps = driverPositions.MRData.RaceTable.Races[0].Laps;
+      const positionsArray = [startPosition];
+      laps.forEach(lap => positionsArray.push(lap.Timings[0].position));
+      driverPositionsInfo.push({
+        label: driverName,
+        data: positionsArray,
+        backgroundColor: "#CEDC00",
+        borderColor: "black",
+        pointBorderColor: "#CEDC00",
+        tension: 0.3
+      });
+    });
+    // console.log(driverPositionsInfo);
+
+    const driverPositions = await fetchLaps(year, race, driverId);
+    const laps = driverPositions.MRData.RaceTable.Races[0].Laps;
+    const driverId2 = raceResult.MRData.RaceTable.Races[0].Results[1].Driver.driverId;
+    const driverPositions2 = await fetchLaps(year, race, driverId2);
+    const laps2 = driverPositions2.MRData.RaceTable.Races[0].Laps;
+    // console.log(laps);
+    const lapsArray = ["0"];
+    const positionsArray = [driverStartPosition];
+    const positionsArray2 = [testDriverStartPosition];
+    laps.forEach(lap => lapsArray.push(lap.number));
+    laps.forEach(lap => {
+      // lapsArray.push(lap.number);
+      positionsArray.push(lap.Timings[0].position);
+    });
+    laps2.forEach(lap => {
+      // lapsArray.push(lap.number);
+      positionsArray2.push(lap.Timings[0].position);
+    });
+    // console.log(lapsArray);
+    // console.log(positionsArray);
+    // setRacePositions({
+    //   labels: lapsArray,
+    //   datasets: [
+    //     {
+    //       label: driverName,
+    //       data: positionsArray,
+    //       backgroundColor: "#CEDC00",
+    //       borderColor: "black",
+    //       pointBorderColor: "#CEDC00",
+    //       tension: 0.3
+    //     },
+    //     {
+    //       label: driverId2,
+    //       data: positionsArray2,
+    //       borderColor: "white",
+    //       pointBorderColor: "black",
+    //       tension: 0.3
+    //     }
+    //   ]
+    // })
+    setRacePositions({
+      labels: lapsArray,
+      datasets: driverPositionsInfo,
+    });
+  }
 
   useEffect(() => {
     if (circuitInfo) {
@@ -87,8 +174,29 @@ const HomePage = () => {
       raceResults(year, circuitInfo[0].round);
       sprintResults(year, circuitInfo[0].round);
     }
-    // console.log(quali);
   }, [circuitInfo]);
+
+  const options = useRef();
+
+  useEffect(() => {
+    if (raceResult) {
+      racePositionsData(raceResult);
+      const numOfDrivers = raceResult.MRData.total;
+      // console.log(numOfDrivers);
+      options.current = {
+        plugins: {
+          legend: true,
+        },
+        scales: {
+          y: {
+            min: 1,
+            max: Number(numOfDrivers),
+            reverse: true,
+          }
+        }
+      }
+    }
+  }, [raceResult]);
 
   if (yearsStatus === "loading") {
     console.log(yearsStatus)
@@ -112,6 +220,7 @@ const HomePage = () => {
       {showQuali && <div><h2>Qualifying Results</h2><QualiTable quali={quali} /></div>}
       {showSprint && <div><h2>Sprint Results</h2><SprintTable sprint={sprint} /></div>}
       {showRace && <div><h2>Race Results</h2><RaceTable raceResult={raceResult} /></div>}
+      {racePositions !== undefined && <Line data={racePositions} options={options.current} ></Line>}
     </div>
   )
 }
