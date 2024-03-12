@@ -6,7 +6,7 @@ export function fetchYears()  {
 }
 
 export function fetchRaces(year) {
-  console.log(year);
+  // console.log(year);
   if (year) {
     return axios.get(`https://ergast.com/api/f1/${year}.json?limit=30`)
   .then(res => res.data.MRData.RaceTable.Races);
@@ -14,7 +14,7 @@ export function fetchRaces(year) {
 }
 
 export function fetchQualiResults(year, race) {
-  console.log(race);
+  // console.log(race);
   if (year && race) {
     return axios.get(`https://ergast.com/api/f1/${year}/${race}/qualifying.json`)
     .then(res => res.data);
@@ -24,6 +24,13 @@ export function fetchQualiResults(year, race) {
 export function fetchRaceResults(year, race) {
   if (year && race) {
     return axios.get(`https://ergast.com/api/f1/${year}/${race}/results.json`)
+    .then(res => res.data);
+  }
+}
+
+export function fetchSprint(year, race) {
+  if (year && race) {
+    return axios.get(`https://ergast.com/api/f1/${year}/${race}/sprint.json`)
     .then(res => res.data);
   }
 }
