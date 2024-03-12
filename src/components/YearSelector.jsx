@@ -1,6 +1,6 @@
-const YearSelector = ({ year, setYear, seasonRaces, setCircuitInfo, years, setQuali }) => {
+const YearSelector = ({ year, setYear, seasonRaces, setCircuitInfo, years, setQuali, setRaceResult }) => {
   return (
-    <select className="text-black" value={year} onChange={e => {setYear(e.target.value); seasonRaces(e.target.value); setCircuitInfo(undefined); setQuali(undefined);}}>
+    <select className="text-black" value={year} onChange={e => {setYear(e.target.value); seasonRaces(e.target.value); setCircuitInfo(undefined); setQuali(undefined); setRaceResult(undefined);}}>
       <option value="" defaultValue hidden>Select a Year</option>
       {years.map(y => <option key={y} value={y}>{y}</option>)}
     </select>

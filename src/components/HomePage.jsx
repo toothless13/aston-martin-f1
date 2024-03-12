@@ -1,10 +1,11 @@
 import { useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
-import { fetchQualiResults, fetchRaces, fetchYears } from "@/api/requests";
+import { fetchQualiResults, fetchRaceResults, fetchRaces, fetchYears } from "@/api/requests";
 import CircuitInfo from "./CircuitInfo";
 import YearSelector from "./YearSelector";
 import RaceSelector from "./RaceSelector";
 import QualiTable from "./QualiTable";
+import RaceTable from "./RaceTable";
 
 const HomePage = () => {
 
@@ -14,6 +15,7 @@ const HomePage = () => {
   const [race, setRace] = useState("");
   const [circuitInfo, setCircuitInfo] = useState();
   const [quali, setQuali] = useState();
+  const [raceResult, setRaceResult] = useState();
 
   const { data: raceYears, status: yearsStatus, error: yearsError } = useQuery({
     queryFn: fetchYears,
@@ -60,9 +62,19 @@ const HomePage = () => {
     }
   }
 
+  const raceResults = async (year, race) => {
+    const raceResults = await fetchRaceResults(year, race);
+    if (raceResults.MRData.RaceTable.Races.length > 0) {
+      setRaceResult(raceResults);
+    } else {
+      console.log("No race results for this combination");
+    }
+  }
+
   useEffect(() => {
     if (circuitInfo) {
       qualiResults(year, circuitInfo[0].round);
+      raceResults(year, circuitInfo[0].round);
     }
     // console.log(quali);
   }, [circuitInfo]);
@@ -78,16 +90,17 @@ const HomePage = () => {
 
   return (
     <div>
-      <YearSelector year={year} setYear={setYear} seasonRaces={seasonRaces} setCircuitInfo={setCircuitInfo} years={years} setQuali={setQuali}/>
+      <YearSelector year={year} setYear={setYear} seasonRaces={seasonRaces} setCircuitInfo={setCircuitInfo} years={years} setQuali={setQuali} setRaceResult={setRaceResult}/>
         {year !== "" && 
-          <RaceSelector race={race} setRace={setRace} handleRaceSelect={handleRaceSelect} races={races} setQuali={setQuali} circuitInfo={circuitInfo}/>
+          <RaceSelector race={race} setRace={setRace} handleRaceSelect={handleRaceSelect} races={races} setQuali={setQuali} circuitInfo={circuitInfo} setRaceResult={setRaceResult}/>
         }
         {circuitInfo !== undefined && <CircuitInfo circuitInfo={circuitInfo} /> }
-      {quali !== undefined  && console.log(quali)}
+      {/* {quali !== undefined  && console.log(quali)} */}
       {/* {quali !== undefined && <div>{quali.MRData.RaceTable.Races[0].QualifyingResults[0].Driver.driverId}</div>}
       {quali !== undefined && <div>{console.log(quali.MRData.RaceTable)}</div>}
       {quali !== undefined && <div>{quali.MRData.RaceTable.Races[0].QualifyingResults.map(driver => <p key={driver.position}>{driver.position} - {driver.Driver.givenName} {driver.Driver.familyName} Constructor: {driver.Constructor.name}</p>)}</div>} */}
       {quali !== undefined && <QualiTable quali={quali} />}
+      {raceResult !== undefined && <RaceTable raceResult={raceResult} />}
     </div>
   )
 }
