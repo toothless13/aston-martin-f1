@@ -207,7 +207,7 @@ const HomePage = () => {
         positionText: driver.positionText,
         status: driver.status,
         driverId: driver.Driver.driverId,
-        driverName: `${driver.Driver.givenName} ${driver.Driver.familyName}`,
+        name: `${driver.Driver.givenName} ${driver.Driver.familyName}`,
         constructor: driver.Constructor.name,
         completedLaps: driver.laps
       }
@@ -222,25 +222,20 @@ const HomePage = () => {
     // const driverLaps = await fetchLaps(year, race, driversInfo[0].driverId);
     // console.log(driverLaps);
 
-    const driversPositionsInfo = driversInfo.map(driver => {
-
-        //     driverPositionsInfo.push({
-  //       label: driverName,
-  //       data: positionsArray,
-  //       backgroundColor: "#CEDC00",
-  //       borderColor: "black",
-  //       pointBorderColor: "#CEDC00",
-  //       tension: 0.3
-  //     });
-    })
-    // console.log(lapsArray);
-
-      //   setRacePositions({
-  //     labels: lapsArray,
-  //     datasets: driverPositionsInfo,
-  //   });
-
-  }
+    const driversPositionsInfo = []; 
+    
+    driversInfo.forEach(async driver => {
+      const driverLaps = await fetchLaps(year, race, driver.driverId);
+      // console.log(driverLaps);
+      // const driversPositionsArray = driverLaps.MRData.RaceTable.Races?[0]
+      let driverPositionsArray = [];
+      if (driverLaps.MRData.RaceTable.Races.length > 0) {
+        driverPositionsArray = driverLaps.MRData.RaceTable.Races[0].Laps.map(lap => Number(lap.Timings[0].position));
+        return driverPositionsArray;
+      }
+      console.log(driverPositionsArray);
+  });
+}
 
   useEffect(() => {
     if (circuitInfo) {
@@ -254,6 +249,7 @@ const HomePage = () => {
 
   useEffect(() => {
     if (raceResult) {
+      // console.log(raceResult);
       racePositionsData(raceResult);
       const numOfDrivers = raceResult.MRData.total;
       // console.log(numOfDrivers);

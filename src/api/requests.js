@@ -1,8 +1,12 @@
 import axios from "axios";
 
 export function fetchYears()  {
-  return axios.get("https://ergast.com/api/f1/seasons.json?limit=80")
-  .then(res => res.data.MRData.SeasonTable.Seasons);
+  try {
+    return axios.get("https://ergast.com/api/f1/seasons.json?limit=80")
+    .then(res => res.data.MRData.SeasonTable.Seasons);
+  } catch (error) {
+    console.log(error.message);
+  }
 }
 
 export function fetchRaces(year) {
