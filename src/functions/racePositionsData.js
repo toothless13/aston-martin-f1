@@ -38,7 +38,9 @@ export const racePositionsData = async (raceResult) => {
     // console.log(driver);
     const individualDriverLaps = driver.map(lap => lap.Timings[0].position ? lap.Timings[0].position : "0");
     const driverIndex = driversInfoArray.findIndex(driverInfo => driverInfo.driverId === driver[0].Timings[0].driverId ? driverInfo.name : "");
-    const name = driversInfoArray[driverIndex].name; 
+    const name = driversInfoArray[driverIndex].name;
+    const gridPosition = driversInfoArray[driverIndex].grid;
+    individualDriverLaps.unshift(gridPosition);
     const driverData = {
       label: name,
       data: individualDriverLaps
