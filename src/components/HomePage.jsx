@@ -152,7 +152,7 @@ const HomePage = () => {
 
   return (
     <div>
-      <YearSelector year={year} setYear={setYear} seasonRaces={seasonRaces} setCircuitInfo={setCircuitInfo} years={years} setQuali={setQuali} setRaceResult={setRaceResult} setSprint={setSprint} setRacePositions={setRacePositions} setDriver={setDriver} setShowQuali={setShowQuali} setShowSprint={setShowSprint} setShowRace={setShowRace} setConstructor={setConstructor} setShowPositions={setShowPositions} />
+      <YearSelector year={year} setYear={setYear} seasonRaces={seasonRaces} setCircuitInfo={setCircuitInfo} setQuali={setQuali} setRaceResult={setRaceResult} setSprint={setSprint} setRacePositions={setRacePositions} setDriver={setDriver} setShowQuali={setShowQuali} setShowSprint={setShowSprint} setShowRace={setShowRace} setConstructor={setConstructor} setShowPositions={setShowPositions} />
         {year !== "" && 
           <RaceSelector race={race} setRace={setRace} handleRaceSelect={handleRaceSelect} races={races} setQuali={setQuali} circuitInfo={circuitInfo} setRaceResult={setRaceResult} setSprint={setSprint} setRacePositions={setRacePositions} setDriver={setDriver} setShowQuali={setShowQuali} setShowSprint={setShowSprint} setShowRace={setShowRace} setConstructor={setConstructor} setShowPositions={setShowPositions} />
         }
