@@ -6,8 +6,7 @@ ChartJS.register(LineElement, CategoryScale, LinearScale, PointElement, Legend, 
 const PositionsGraph = ({ racePositions, options }) => {
 
   return (
-    <div>
-      {console.log("Test")}
+    <div className="mx-4">
       <Line data={racePositions} options={options.current} ></Line>
     </div>
   )

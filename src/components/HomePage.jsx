@@ -85,58 +85,6 @@ const HomePage = () => {
     }
   }
 
-//   const racePositionsData = async raceResult => {
-//     const year = raceResult.MRData.RaceTable.season;
-//     const race = raceResult.MRData.RaceTable.round;
-//     const drivers = raceResult.MRData.RaceTable.Races[0].Results;
-//     const driversInfoArray = drivers.map(driver => {
-//       return {
-//         position: driver.position,
-//         grid: driver.grid > 0 ? driver.grid : drivers.length.toString(),
-//         positionText: driver.positionText,
-//         status: driver.status,
-//         driverId: driver.Driver.driverId,
-//         name: `${driver.Driver.givenName} ${driver.Driver.familyName}`,
-//         constructor: driver.Constructor.name,
-//         completedLaps: driver.laps
-//       }
-//     });
-
-//     const totalLaps = driversInfoArray[0].completedLaps;
-//     const lapsArray = [];
-//     for (let i = 0; i <= totalLaps; i++) {
-//       lapsArray.push(i);
-//     }
-
-//     const getWithForOf = async () => {
-//       const data = [];
-//       for (const driver of driversInfoArray) {
-//         let dataLaps = await fetchLaps(year, race, driver.driverId);
-//         if (dataLaps.MRData.RaceTable.Races.length > 0)
-//         data.push(dataLaps.MRData.RaceTable.Races[0].Laps);
-//       }
-//       return data;
-//     }
-//     const data = await getWithForOf();
-
-//     const allDriverLaps = [];
-//     data.forEach(driver => {
-//       const individualDriverLaps = driver.map(lap => lap.Timings[0].position ? lap.Timings[0].position : "0");
-//       const driverIndex = driversInfoArray.findIndex(driverInfo => driverInfo.driverId === driver[0].Timings[0].driverId ? driverInfo.name : "");
-//       const name = driversInfoArray[driverIndex].name; 
-//       const driverData = {
-//         label: name,
-//         data: individualDriverLaps
-//       }
-//       allDriverLaps.push(driverData);
-//       });
-
-//     setRacePositions({
-//       labels: lapsArray,
-//       datasets: allDriverLaps
-//     });
-// }
-
   useEffect(() => {
     if (circuitInfo) {
       qualiResults(year, circuitInfo[0].round);
@@ -145,22 +93,14 @@ const HomePage = () => {
     }
   }, [circuitInfo]);
 
-  // const racePositionsData = racePositionsData(race);
-
   const options = useRef();
 
   useEffect(() => {
-    if (raceResult) {
-      console.log("called");
-      // console.log(raceResult);
-      
+    const numYear = Number(year);
+    if (raceResult && numYear > 1995) {      
       racePositionsData(raceResult).then(res => setRacePositions(res));
-      // const testArray = [test]
-      // console.log(test);
-      // setRacePositions(test);
-      // console.log()
       const numOfDrivers = raceResult.MRData.total;
-      // console.log(numOfDrivers);
+
       options.current = {
         plugins: {
           legend: true,
@@ -187,9 +127,9 @@ const HomePage = () => {
 
   return (
     <div>
-      <YearSelector year={year} setYear={setYear} seasonRaces={seasonRaces} setCircuitInfo={setCircuitInfo} years={years} setQuali={setQuali} setRaceResult={setRaceResult}/>
+      <YearSelector year={year} setYear={setYear} seasonRaces={seasonRaces} setCircuitInfo={setCircuitInfo} years={years} setQuali={setQuali} setRaceResult={setRaceResult} setSprint={setSprint} setRacePositions={setRacePositions}/>
         {year !== "" && 
-          <RaceSelector race={race} setRace={setRace} handleRaceSelect={handleRaceSelect} races={races} setQuali={setQuali} circuitInfo={circuitInfo} setRaceResult={setRaceResult}/>
+          <RaceSelector race={race} setRace={setRace} handleRaceSelect={handleRaceSelect} races={races} setQuali={setQuali} circuitInfo={circuitInfo} setRaceResult={setRaceResult} setSprint={setSprint} setRacePositions={setRacePositions}/>
         }
         {circuitInfo !== undefined && <CircuitInfo circuitInfo={circuitInfo} /> }
       {quali !== undefined && <button className="btn mx-2" onClick={() => showQuali ? setShowQuali(false) : setShowQuali(true)}>{showQuali ? "Hide" : "Show"} Qualifying Results</button>}
