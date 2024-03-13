@@ -8,10 +8,11 @@ import {
   TableRow,
 } from "@/components/ui/table"
 import { flexRender, getCoreRowModel, useReactTable } from "@tanstack/react-table"
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
-const DriverStandingsTable = ({ driverStandings }) => {
+const DriverStandingsTable = ({ driverStandings, driver }) => {
 
+  const [allData, setAllData] = useState(driverStandings.StandingsLists[0].DriverStandings);
   const [data, setData] = useState(driverStandings.StandingsLists[0].DriverStandings);
   // console.log(data);
   // driverStandings[0].DriverStandings
@@ -51,6 +52,18 @@ const DriverStandingsTable = ({ driverStandings }) => {
     //   columnVisibility: { "Q3" : false }
     // }
   });
+
+  useEffect(() => {
+    if (driverStandings) {
+      setAllData(driverStandings.StandingsLists[0].DriverStandings);
+    }
+  }, [driverStandings])
+
+  useEffect(() => {
+    if (allData) {
+      setData(allData.filter(row => `${row.Driver.givenName} ${row.Driver.familyName}` === driver));
+    }
+  }, [driver]);
 
   return (
     <Table className="w-1/3 mx-4">
