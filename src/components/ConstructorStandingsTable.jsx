@@ -8,12 +8,14 @@ import {
   TableRow,
 } from "@/components/ui/table"
 import { flexRender, getCoreRowModel, useReactTable } from "@tanstack/react-table"
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
-const RaceTable = ({ raceResult, setDriver, setConstructor }) => {
+const ConstructorStandingsTable = ({ constructorStandings, constructor }) => {
 
-  const [data, setData] = useState(raceResult.MRData.RaceTable.Races[0].Results);
-
+  const [allData, setAllData] = useState(constructorStandings.StandingsLists[0].ConstructorStandings);
+  const [data, setData] = useState(constructorStandings.StandingsLists[0].ConstructorStandings);
+  // console.log(data);
+  // driverStandings[0].DriverStandings
   const columns = [
     {
       accessorFn: row => `${row.position}`,
@@ -21,18 +23,13 @@ const RaceTable = ({ raceResult, setDriver, setConstructor }) => {
       cell: (props) => <p>{props.getValue()}</p>
     },
     {
-      accessorFn: row => `${row.Driver.givenName} ${row.Driver.familyName}`,
-      header: "Driver",
-      cell: (props) => <p onClick={() => setDriver(props.getValue())} className="hover:cursor-pointer" >{props.getValue()}</p>
-    },
-    {
       accessorFn: row => `${row.Constructor.name}`,
       header: "Constructor",
-      cell: (props) => <p onClick={() => setConstructor(props.getValue())} className="hover:cursor-pointer">{props.getValue()}</p>
+      cell: (props) => <p>{props.getValue()}</p>
     },
     {
-      accessorFn: row => `${row.grid}`,
-      header: "Grid Position",
+      accessorFn: row => `${row.wins}`,
+      header: "Constructor Wins",
       cell: (props) => <p>{props.getValue()}</p>
     },
     {
@@ -40,34 +37,6 @@ const RaceTable = ({ raceResult, setDriver, setConstructor }) => {
       header: "Points",
       cell: (props) => <p>{props.getValue()}</p>
     },
-    {
-      accessorFn: row => `${row.status}`,
-      header: "Status",
-      cell: (props) => <p>{props.getValue()}</p>
-    },
-    {
-      accessorFn: row => `${row.laps}`,
-      header: "Laps",
-      cell: (props) => <p>{props.getValue()}</p>
-    },
-    {
-      accessorFn: row => {
-        if (row.Time) {
-          return `${row.Time.time}`;
-      }
-    },
-      header: "Time",
-      cell: (props) => <p>{props.getValue()}</p>
-    },
-    {
-      accessorFn: row => {
-        if (row.FastestLap) {
-          return `${row.FastestLap.Time.time}`;
-        }
-      },
-      header: "Fastest Lap",
-      cell: (props) => <p>{props.getValue()}</p>
-    }
   ]
 
   const table = useReactTable({
@@ -78,6 +47,18 @@ const RaceTable = ({ raceResult, setDriver, setConstructor }) => {
     //   columnVisibility: { "Q3" : false }
     // }
   });
+
+  useEffect(() => {
+    if (constructorStandings) {
+      setAllData(constructorStandings.StandingsLists[0].ConstructorStandings);
+    }
+  }, [constructorStandings])
+
+  useEffect(() => {
+    if (allData) {
+      setData(allData.filter(row => `${row.Constructor.name}` === constructor));
+    }
+  }, [constructor]);
 
   return (
     <Table className="w-1/3 mx-4">
@@ -107,4 +88,4 @@ const RaceTable = ({ raceResult, setDriver, setConstructor }) => {
   )
 }
 
-export default RaceTable
+export default ConstructorStandingsTable

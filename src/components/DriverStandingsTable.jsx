@@ -19,7 +19,7 @@ const DriverStandingsTable = ({ driverStandings, driver }) => {
   const columns = [
     {
       accessorFn: row => `${row.position}`,
-      header: "Finishing Position",
+      header: "Position",
       cell: (props) => <p>{props.getValue()}</p>
     },
     {

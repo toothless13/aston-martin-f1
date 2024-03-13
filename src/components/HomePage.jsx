@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { useEffect, useRef, useState } from "react";
-import { fetchDriverStandings, fetchQualiResults, fetchRaceResults, fetchRaces, fetchSprint, fetchYears } from "@/api/requests";
+import { fetchConstructorStandings, fetchDriverStandings, fetchQualiResults, fetchRaceResults, fetchRaces, fetchSprint, fetchYears } from "@/api/requests";
 import CircuitInfo from "./CircuitInfo";
 import YearSelector from "./YearSelector";
 import RaceSelector from "./RaceSelector";
@@ -12,6 +12,7 @@ import SprintTable from "./SprintTable";
 import PositionsGraph from "./PositionsGraph";
 import DriverStandingsTable from "./DriverStandingsTable";
 import { racePositionsData } from "@/functions/racePositionsData";
+import ConstructorStandingsTable from "./ConstructorStandingsTable";
 
 // ChartJS.register(LineElement, CategoryScale, LinearScale, PointElement, Legend, Tooltip);
 
@@ -31,6 +32,8 @@ const HomePage = () => {
   const [racePositions, setRacePositions] = useState();
   const [driverStandings, setDriverStandings] = useState();
   const [driver, setDriver] = useState();
+  const [constructorStandings, setConstructorStandings] = useState();
+  const [constructor, setConstructor] = useState();
 
   const { data: raceYears, status: yearsStatus, error: yearsError } = useQuery({
     queryFn: fetchYears,
@@ -123,6 +126,7 @@ const HomePage = () => {
     if (raceResult) {
       const raceNumber = raceResult.MRData.RaceTable.round;
       fetchDriverStandings(year, raceNumber).then(res => setDriverStandings(res));
+      fetchConstructorStandings(year, raceNumber).then(res => setConstructorStandings(res));
     }
     // console.log(driverStandings);
   }, [raceResult]);
@@ -138,18 +142,19 @@ const HomePage = () => {
 
   return (
     <div>
-      <YearSelector year={year} setYear={setYear} seasonRaces={seasonRaces} setCircuitInfo={setCircuitInfo} years={years} setQuali={setQuali} setRaceResult={setRaceResult} setSprint={setSprint} setRacePositions={setRacePositions} setDriver={setDriver} setShowQuali={setShowQuali} setShowSprint={setShowSprint} setShowRace={setShowRace} />
+      <YearSelector year={year} setYear={setYear} seasonRaces={seasonRaces} setCircuitInfo={setCircuitInfo} years={years} setQuali={setQuali} setRaceResult={setRaceResult} setSprint={setSprint} setRacePositions={setRacePositions} setDriver={setDriver} setShowQuali={setShowQuali} setShowSprint={setShowSprint} setShowRace={setShowRace} setConstructor={setConstructor} />
         {year !== "" && 
-          <RaceSelector race={race} setRace={setRace} handleRaceSelect={handleRaceSelect} races={races} setQuali={setQuali} circuitInfo={circuitInfo} setRaceResult={setRaceResult} setSprint={setSprint} setRacePositions={setRacePositions} setDriver={setDriver} setShowQuali={setShowQuali} setShowSprint={setShowSprint} setShowRace={setShowRace}/>
+          <RaceSelector race={race} setRace={setRace} handleRaceSelect={handleRaceSelect} races={races} setQuali={setQuali} circuitInfo={circuitInfo} setRaceResult={setRaceResult} setSprint={setSprint} setRacePositions={setRacePositions} setDriver={setDriver} setShowQuali={setShowQuali} setShowSprint={setShowSprint} setShowRace={setShowRace} setConstructor={setConstructor} />
         }
         {circuitInfo !== undefined && <CircuitInfo circuitInfo={circuitInfo} /> }
       {quali !== undefined && <button className="btn mx-2" onClick={() => showQuali ? setShowQuali(false) : setShowQuali(true)}>{showQuali ? "Hide" : "Show"} Qualifying Results</button>}
       {sprint !== undefined && <button className="btn mx-2" onClick={() => showSprint ? setShowSprint(false) : setShowSprint(true)}>{showSprint ? "Hide" : "Show"} Sprint Results</button>}
       {raceResult !== undefined && <button className="btn mx-2" onClick={() => showRace ? setShowRace(false) : setShowRace(true)}>{showRace ? "Hide" : "Show"} Race Results</button>}
       {(driverStandings !== undefined && driver !== undefined) && <DriverStandingsTable driverStandings={driverStandings} driver={driver} />}
+      {(constructorStandings !== undefined && constructor !== undefined) && <ConstructorStandingsTable constructorStandings={constructorStandings} constructor={constructor} />}
       {(showQuali && raceResult !== undefined) && <div><h2>Qualifying Results</h2><QualiTable quali={quali} /></div>}
       {(showSprint && raceResult !== undefined) && <div><h2>Sprint Results</h2><SprintTable sprint={sprint} /></div>}
-      {(showRace && raceResult !== undefined) && <div><h2>Race Results</h2><RaceTable raceResult={raceResult} setDriver={setDriver} /></div>}
+      {(showRace && raceResult !== undefined) && <div><h2>Race Results</h2><RaceTable raceResult={raceResult} setDriver={setDriver} setConstructor={setConstructor} /></div>}
       {racePositions !== undefined && <PositionsGraph racePositions={racePositions} setRacePositions={setRacePositions} raceResult={raceResult} options={options} />}
     </div>
   )

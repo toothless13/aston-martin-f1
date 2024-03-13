@@ -52,3 +52,10 @@ export function fetchDriverStandings(year, race) {
     .then(res => res.data.MRData.StandingsTable);
   }
 }
+
+export function fetchConstructorStandings(year, race) {
+  if (year && race) {
+    return axios.get(`https://ergast.com/api/f1/${year}/${race}/constructorStandings.json?limit=40`)
+    .then(res => res.data.MRData.StandingsTable);
+  }
+}
