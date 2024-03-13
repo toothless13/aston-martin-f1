@@ -23,7 +23,7 @@ const RaceTable = ({ raceResult }) => {
     {
       accessorFn: row => `${row.Driver.givenName} ${row.Driver.familyName}`,
       header: "Driver",
-      cell: (props) => <p>{props.getValue()}</p>
+      cell: (props) => <p onClick={() => console.log(props.getValue())} className="hover:cursor-pointer" >{props.getValue()}</p>
     },
     {
       accessorFn: row => `${row.Constructor.name}`,
