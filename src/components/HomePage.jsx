@@ -200,7 +200,7 @@ const HomePage = () => {
     const year = raceResult.MRData.RaceTable.season;
     const race = raceResult.MRData.RaceTable.round;
     const drivers = raceResult.MRData.RaceTable.Races[0].Results;
-    const driversInfo = drivers.map(driver => {
+    const driversInfoArray = drivers.map(driver => {
       return {
         position: driver.position,
         grid: driver.grid > 0 ? driver.grid : drivers.length.toString(),
@@ -213,35 +213,47 @@ const HomePage = () => {
       }
     });
     // console.log(driversInfo);
-    const totalLaps = driversInfo[0].completedLaps;
+    const totalLaps = driversInfoArray[0].completedLaps;
     const lapsArray = [];
     for (let i = 0; i <= totalLaps; i++) {
       lapsArray.push(i);
     }
-    // console.log(lapsArray);
-    const driverLapsInfo = [];
-    driversInfo.forEach(async driver => {
-      const driverLaps = await fetchLaps(year, race, driver.driverId);
-      // console.log(driverLaps);
-      const driverLapsArray = [driver.grid];
-      driverLaps.MRData.RaceTable.Races[0].Laps.forEach(lap => {
-        driverLapsArray.push(lap.Timings[0].position);
+    // driversInfoArray.forEach(driver => console.log(driver.driverId));
+    // const driversDataArray = driversInfoArray.map(driver => {
+      // Do the await fetchLaps in here and then add an object with label, data, backgroundColor etc to the array
+    // })
+    // const data = [];
+    const getWithForOf = async () => {
+      const data = [];
+      for (const driver of driversInfoArray) {
+        let dataLaps = await fetchLaps(year, race, driver.driverId);
+        // console.log(dataLaps);
+        if (dataLaps.MRData.RaceTable.Races.length > 0)
+        data.push(dataLaps.MRData.RaceTable.Races[0].Laps);
+        // console.log(data);
+      }
+      return data;
+    }
+    const data = await getWithForOf();
+    // console.log(data);
+    const driverLaps = [];
+    const allDriverLaps = [];
+    data.forEach(driver => {
+      // console.log(driver);
+      const individualDriverLaps = driver.map(lap => lap.Timings[0].position ? lap.Timings[0].position : "0");
+      const driverIndex = driversInfoArray.findIndex(driverInfo => driverInfo.driverId === driver[0].Timings[0].driverId ? driverInfo.name : "");
+      const name = driversInfoArray[driverIndex].name; 
+      const driverData = {
+        label: name,
+        data: individualDriverLaps
+      }
+      allDriverLaps.push(driverData);
       });
-      driverLapsInfo.push({
-        label: driver.name,
-        data: driverLapsArray,
-        backgroundColor: "#CEDC00",
-        borderColor: "black",
-        pointBorderColor: "#CEDC00",
-        tension: 0.3
-      });
-    })
-    console.log(driverLapsInfo);
+
     setRacePositions({
       labels: lapsArray,
-      datasets: driverLapsInfo
+      datasets: allDriverLaps
     });
-
 }
 
   useEffect(() => {
@@ -258,6 +270,7 @@ const HomePage = () => {
     if (raceResult) {
       console.log("called");
       // console.log(raceResult);
+      
       racePositionsData(raceResult);
       const numOfDrivers = raceResult.MRData.total;
       // console.log(numOfDrivers);
