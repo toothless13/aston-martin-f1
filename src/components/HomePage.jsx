@@ -1,18 +1,19 @@
 import { useQuery } from "@tanstack/react-query";
 import { useEffect, useRef, useState } from "react";
-import { fetchLaps, fetchQualiResults, fetchRaceResults, fetchRaces, fetchSprint, fetchYears } from "@/api/requests";
+import { fetchDriverStandings, fetchQualiResults, fetchRaceResults, fetchRaces, fetchSprint, fetchYears } from "@/api/requests";
 import CircuitInfo from "./CircuitInfo";
 import YearSelector from "./YearSelector";
 import RaceSelector from "./RaceSelector";
 import QualiTable from "./QualiTable";
 import RaceTable from "./RaceTable";
 import SprintTable from "./SprintTable";
-import { Line } from "react-chartjs-2";
-import { Chart as ChartJS, LineElement, CategoryScale, LinearScale, PointElement, Legend, Tooltip } from "chart.js";
+// import { Line } from "react-chartjs-2";
+// import { Chart as ChartJS, LineElement, CategoryScale, LinearScale, PointElement, Legend, Tooltip } from "chart.js";
 import PositionsGraph from "./PositionsGraph";
+import DriverStandingsTable from "./DriverStandingsTable";
 import { racePositionsData } from "@/functions/racePositionsData";
 
-ChartJS.register(LineElement, CategoryScale, LinearScale, PointElement, Legend, Tooltip);
+// ChartJS.register(LineElement, CategoryScale, LinearScale, PointElement, Legend, Tooltip);
 
 const HomePage = () => {
 
@@ -28,6 +29,7 @@ const HomePage = () => {
   const [showSprint, setShowSprint] = useState(false);
   const [showRace, setShowRace] = useState(false);
   const [racePositions, setRacePositions] = useState();
+  const [driverStandings, setDriverStandings] = useState();
 
   const { data: raceYears, status: yearsStatus, error: yearsError } = useQuery({
     queryFn: fetchYears,
@@ -116,6 +118,14 @@ const HomePage = () => {
     }
   }, [raceResult]);
 
+  useEffect(() => {
+    if (raceResult) {
+      const raceNumber = raceResult.MRData.RaceTable.round;
+      fetchDriverStandings(year, raceNumber).then(res => setDriverStandings(res));
+    }
+    // console.log(driverStandings);
+  }, [raceResult]);
+
   if (yearsStatus === "loading") {
     console.log(yearsStatus)
     return <div>Loading...</div>
@@ -139,6 +149,9 @@ const HomePage = () => {
       {showSprint && <div><h2>Sprint Results</h2><SprintTable sprint={sprint} /></div>}
       {showRace && <div><h2>Race Results</h2><RaceTable raceResult={raceResult} /></div>}
       {racePositions !== undefined && <PositionsGraph racePositions={racePositions} setRacePositions={setRacePositions} raceResult={raceResult} options={options} />}
+      {/* {(raceResult !== undefined && driverStandings !== undefined) && <div>{console.log(driverStandings)}<DriverStandingsTable driverStandings={driverStandings} /></div>} */}
+      {/* {driverStandings !== undefined && <div>{console.log(driverStandings)}</div>} */}
+      {driverStandings !== undefined && <DriverStandingsTable driverStandings={driverStandings} />}
     </div>
   )
 }

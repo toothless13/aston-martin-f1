@@ -45,3 +45,10 @@ export function fetchLaps(year, race, driver) {
     .then(res => res.data);
   }
 }
+
+export function fetchDriverStandings(year, race) {
+  if (year && race) {
+    return axios.get(`https://ergast.com/api/f1/${year}/${race}/driverStandings.json?limit=40`)
+    .then(res => res.data.MRData.StandingsTable);
+  }
+}
