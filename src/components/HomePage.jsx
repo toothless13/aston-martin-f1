@@ -34,6 +34,7 @@ const HomePage = () => {
   const [driver, setDriver] = useState();
   const [constructorStandings, setConstructorStandings] = useState();
   const [constructor, setConstructor] = useState();
+  const [showPositions, setShowPositions] = useState(false);
 
   const { data: raceYears, status: yearsStatus, error: yearsError } = useQuery({
     queryFn: fetchYears,
@@ -142,20 +143,21 @@ const HomePage = () => {
 
   return (
     <div>
-      <YearSelector year={year} setYear={setYear} seasonRaces={seasonRaces} setCircuitInfo={setCircuitInfo} years={years} setQuali={setQuali} setRaceResult={setRaceResult} setSprint={setSprint} setRacePositions={setRacePositions} setDriver={setDriver} setShowQuali={setShowQuali} setShowSprint={setShowSprint} setShowRace={setShowRace} setConstructor={setConstructor} />
+      <YearSelector year={year} setYear={setYear} seasonRaces={seasonRaces} setCircuitInfo={setCircuitInfo} years={years} setQuali={setQuali} setRaceResult={setRaceResult} setSprint={setSprint} setRacePositions={setRacePositions} setDriver={setDriver} setShowQuali={setShowQuali} setShowSprint={setShowSprint} setShowRace={setShowRace} setConstructor={setConstructor} setShowPositions={setShowPositions} />
         {year !== "" && 
-          <RaceSelector race={race} setRace={setRace} handleRaceSelect={handleRaceSelect} races={races} setQuali={setQuali} circuitInfo={circuitInfo} setRaceResult={setRaceResult} setSprint={setSprint} setRacePositions={setRacePositions} setDriver={setDriver} setShowQuali={setShowQuali} setShowSprint={setShowSprint} setShowRace={setShowRace} setConstructor={setConstructor} />
+          <RaceSelector race={race} setRace={setRace} handleRaceSelect={handleRaceSelect} races={races} setQuali={setQuali} circuitInfo={circuitInfo} setRaceResult={setRaceResult} setSprint={setSprint} setRacePositions={setRacePositions} setDriver={setDriver} setShowQuali={setShowQuali} setShowSprint={setShowSprint} setShowRace={setShowRace} setConstructor={setConstructor} setShowPositions={setShowPositions} />
         }
         {circuitInfo !== undefined && <CircuitInfo circuitInfo={circuitInfo} /> }
       {quali !== undefined && <button className="btn mx-2" onClick={() => showQuali ? setShowQuali(false) : setShowQuali(true)}>{showQuali ? "Hide" : "Show"} Qualifying Results</button>}
       {sprint !== undefined && <button className="btn mx-2" onClick={() => showSprint ? setShowSprint(false) : setShowSprint(true)}>{showSprint ? "Hide" : "Show"} Sprint Results</button>}
       {raceResult !== undefined && <button className="btn mx-2" onClick={() => showRace ? setShowRace(false) : setShowRace(true)}>{showRace ? "Hide" : "Show"} Race Results</button>}
+      {racePositions !== undefined && <button className="btn mx-2" onClick={() => showPositions ? setShowPositions(false) : setShowPositions(true)}>{showPositions ? "Hide" : "Show"} Race Positions</button>}
       {(driverStandings !== undefined && driver !== undefined) && <DriverStandingsTable driverStandings={driverStandings} driver={driver} />}
       {(constructorStandings !== undefined && constructor !== undefined) && <ConstructorStandingsTable constructorStandings={constructorStandings} constructor={constructor} />}
       {(showQuali && raceResult !== undefined) && <div><h2>Qualifying Results</h2><QualiTable quali={quali} /></div>}
       {(showSprint && raceResult !== undefined) && <div><h2>Sprint Results</h2><SprintTable sprint={sprint} /></div>}
       {(showRace && raceResult !== undefined) && <div><h2>Race Results</h2><RaceTable raceResult={raceResult} setDriver={setDriver} setConstructor={setConstructor} /></div>}
-      {racePositions !== undefined && <PositionsGraph racePositions={racePositions} setRacePositions={setRacePositions} raceResult={raceResult} options={options} />}
+      {(showPositions && racePositions !== undefined) && <PositionsGraph racePositions={racePositions} setRacePositions={setRacePositions} raceResult={raceResult} options={options} />}
     </div>
   )
 }
