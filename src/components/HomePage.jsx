@@ -138,9 +138,9 @@ const HomePage = () => {
 
   return (
     <div>
-      <YearSelector year={year} setYear={setYear} seasonRaces={seasonRaces} setCircuitInfo={setCircuitInfo} years={years} setQuali={setQuali} setRaceResult={setRaceResult} setSprint={setSprint} setRacePositions={setRacePositions} setDriver={setDriver}/>
+      <YearSelector year={year} setYear={setYear} seasonRaces={seasonRaces} setCircuitInfo={setCircuitInfo} years={years} setQuali={setQuali} setRaceResult={setRaceResult} setSprint={setSprint} setRacePositions={setRacePositions} setDriver={setDriver} setShowQuali={setShowQuali} setShowSprint={setShowSprint} setShowRace={setShowRace} />
         {year !== "" && 
-          <RaceSelector race={race} setRace={setRace} handleRaceSelect={handleRaceSelect} races={races} setQuali={setQuali} circuitInfo={circuitInfo} setRaceResult={setRaceResult} setSprint={setSprint} setRacePositions={setRacePositions} setDriver={setDriver}/>
+          <RaceSelector race={race} setRace={setRace} handleRaceSelect={handleRaceSelect} races={races} setQuali={setQuali} circuitInfo={circuitInfo} setRaceResult={setRaceResult} setSprint={setSprint} setRacePositions={setRacePositions} setDriver={setDriver} setShowQuali={setShowQuali} setShowSprint={setShowSprint} setShowRace={setShowRace}/>
         }
         {circuitInfo !== undefined && <CircuitInfo circuitInfo={circuitInfo} /> }
       {quali !== undefined && <button className="btn mx-2" onClick={() => showQuali ? setShowQuali(false) : setShowQuali(true)}>{showQuali ? "Hide" : "Show"} Qualifying Results</button>}
