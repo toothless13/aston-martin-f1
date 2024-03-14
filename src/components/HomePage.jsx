@@ -63,7 +63,7 @@ const HomePage = () => {
 
   const qualiQuery = useQuery({
     queryKey: ["quali", year, circuitInfo],
-    enabled: circuitInfo !== null,
+    enabled: (year !== undefined && circuitInfo !== null),
     queryFn: () => fetchQualiResults(year, circuitInfo[0].round)
   });
 
@@ -75,7 +75,7 @@ const HomePage = () => {
         console.log("No quali results for this time period");
       }
     }
-  }, [qualiQuery]);
+  }, [circuitInfo]);
 
   // const qualiResults = async (year, race) => {
   //   const quali = await fetchQualiResults(year, race);
@@ -86,36 +86,69 @@ const HomePage = () => {
   //   }
   // }
 
-  const raceResults = async (year, race) => {
-    const raceResults = await fetchRaceResults(year, race);
-    if (raceResults.MRData.RaceTable.Races.length > 0) {
-      setRaceResult(raceResults);
-    } else {
-      console.log("No race results for this combination");
-    }
-  }
+  const raceResultQuery = useQuery({
+    queryKey: ["raceResult", year, circuitInfo],
+    enabled: (year !== undefined && circuitInfo !== null),
+    queryFn: () => fetchRaceResults(year, circuitInfo[0].round)
+  });
 
-  const sprintResults = async (year, race) => {
+  useEffect(() => {
+    if (raceResultQuery.data && raceResultQuery.data.MRData.RaceTable.Races.length > 0) {
+      setRaceResult(raceResultQuery.data);
+    } else {
+      console.log("No race results for this time period");
+    }
+  }, [circuitInfo]);
+
+  // const raceResults = async (year, race) => {
+  //   const raceResults = await fetchRaceResults(year, race);
+  //   if (raceResults.MRData.RaceTable.Races.length > 0) {
+  //     setRaceResult(raceResults);
+  //   } else {
+  //     console.log("No race results for this combination");
+  //   }
+  // }
+
+  const sprintQuery = useQuery({
+    queryKey: ["sprintResult", year, circuitInfo],
+    enable: (year !== undefined && circuitInfo !== null),
+    queryFn: () => fetchSprint(year, circuitInfo[0].round)
+  });
+
+  useEffect(() => {
     const numYear = Number(year);
     if (numYear > 2020) {
-      const sprint = await fetchSprint(year, race);
-      if (sprint.MRData.RaceTable.Races.length > 0) {
-        setSprint(sprint);
+      if (sprintQuery.data?.MRData.RaceTable.Races.length > 0) {
+        setSprint(sprintQuery.data);
       } else {
         console.log("No Sprint results for this combination");
       }
     } else {
-      console.log("There was no Sprint at this race event");
+      console.log("There was no Sprint at this race event");      
     }
-  }
+  }, [circuitInfo, year]);
 
-  useEffect(() => {
-    if (circuitInfo) {
-      // qualiResults(year, circuitInfo[0].round);
-      raceResults(year, circuitInfo[0].round);
-      sprintResults(year, circuitInfo[0].round);
-    }
-  }, [circuitInfo]);
+  // const sprintResults = async (year, race) => {
+  //   const numYear = Number(year);
+  //   if (numYear > 2020) {
+  //     const sprint = await fetchSprint(year, race);
+  //     if (sprint.MRData.RaceTable.Races.length > 0) {
+  //       setSprint(sprint);
+  //     } else {
+  //       console.log("No Sprint results for this combination");
+  //     }
+  //   } else {
+  //     console.log("There was no Sprint at this race event");
+  //   }
+  // }
+
+  // useEffect(() => {
+  //   if (circuitInfo) {
+  //     // qualiResults(year, circuitInfo[0].round);
+  //     // raceResults(year, circuitInfo[0].round);
+  //     // sprintResults(year, circuitInfo[0].round);
+  //   }
+  // }, [circuitInfo]);
 
   const options = useRef();
 
@@ -159,8 +192,8 @@ const HomePage = () => {
       {sprint !== undefined && <button className="btn mx-2" onClick={() => showSprint ? setShowSprint(false) : setShowSprint(true)}>{showSprint ? "Hide" : "Show"} Sprint Results</button>}
       {raceResult !== undefined && <button className="btn mx-2" onClick={() => showRace ? setShowRace(false) : setShowRace(true)}>{showRace ? "Hide" : "Show"} Race Results</button>}
       {racePositions !== undefined && <button className="btn mx-2" onClick={() => showPositions ? setShowPositions(false) : setShowPositions(true)}>{showPositions ? "Hide" : "Show"} Race Positions</button>}
-      {(driverStandings !== undefined && driver !== undefined) && <DriverStandingsTable />}
-      {(constructorStandings !== undefined && constructor !== undefined) && <ConstructorStandingsTable />}
+      {(driverStandings !== undefined && driver !== undefined && showRace === true) && <DriverStandingsTable />}
+      {(constructorStandings !== undefined && constructor !== undefined && showRace === true) && <ConstructorStandingsTable />}
       {(showQuali && raceResult !== undefined) && <div><h2>Qualifying Results</h2><QualiTable /></div>}
       {(showSprint && raceResult !== undefined) && <div><h2>Sprint Results</h2><SprintTable /></div>}
       {(showRace && raceResult !== undefined) && <div><h2>Race Results</h2><RaceTable /></div>}

@@ -1,4 +1,4 @@
-import { useCircuitInfoStore, useQualiStore, useRaceResultStore, useRaceStore, useShowQualiStore, useShowSprintStore, useShowRaceStore, useSprintStore, useYearsStore, useYearStore, useRacePositionsStore, useDriverStore, useConstructorStore, useShowPositionsStore } from "@/store";
+import { useCircuitInfoStore, useQualiStore, useRaceResultStore, useRaceStore, useShowQualiStore, useShowSprintStore, useShowRaceStore, useSprintStore, useYearStore, useRacePositionsStore, useDriverStore, useConstructorStore, useShowPositionsStore } from "@/store";
 import { fetchYears } from "@/api/requests";
 import { useQuery } from "@tanstack/react-query";
 
