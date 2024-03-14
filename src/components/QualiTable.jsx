@@ -7,10 +7,13 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
+import { useQualiStore } from "@/store";
 import { flexRender, getCoreRowModel, useReactTable } from "@tanstack/react-table"
 import { useState } from "react";
 
-const QualiTable = ({ quali }) => {
+const QualiTable = () => {
+
+  const quali = useQualiStore(store => store.quali);
 
   const [data, setData] = useState(quali.MRData.RaceTable.Races[0].QualifyingResults);
 

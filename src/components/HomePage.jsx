@@ -13,7 +13,7 @@ import PositionsGraph from "./PositionsGraph";
 import DriverStandingsTable from "./DriverStandingsTable";
 import { racePositionsData } from "@/functions/racePositionsData";
 import ConstructorStandingsTable from "./ConstructorStandingsTable";
-import { useRaceStore, useRacesStore, useYearStore, useYearsStore } from "@/store";
+import { useCircuitInfoStore, useConstructorStandingsStore, useConstructorStore, useDriverStandingsStore, useDriverStore, useQualiStore, useRacePositionsStore, useRaceResultStore, useRacesStore, useShowPositionsStore, useShowQualiStore, useShowRaceStore, useShowSprintStore, useSprintStore, useYearStore, useYearsStore } from "@/store";
 
 // ChartJS.register(LineElement, CategoryScale, LinearScale, PointElement, Legend, Tooltip);
 
@@ -23,25 +23,48 @@ const HomePage = () => {
   // const [races, setRaces] = useState([]);
   // const [year, setYear] = useState("");
   // const [race, setRace] = useState("");
-  const [circuitInfo, setCircuitInfo] = useState();
-  const [quali, setQuali] = useState();
-  const [raceResult, setRaceResult] = useState();
-  const [sprint, setSprint] = useState();
-  const [showQuali, setShowQuali] = useState(false);
-  const [showSprint, setShowSprint] = useState(false);
-  const [showRace, setShowRace] = useState(false);
-  const [racePositions, setRacePositions] = useState();
-  const [driverStandings, setDriverStandings] = useState();
-  const [driver, setDriver] = useState();
-  const [constructorStandings, setConstructorStandings] = useState();
-  const [constructor, setConstructor] = useState();
-  const [showPositions, setShowPositions] = useState(false);
+  // const [circuitInfo, setCircuitInfo] = useState();
+  // const [quali, setQuali] = useState();
+  // const [raceResult, setRaceResult] = useState();
+  // const [sprint, setSprint] = useState();
+  // const [showQuali, setShowQuali] = useState(false);
+  // const [showSprint, setShowSprint] = useState(false);
+  // const [showRace, setShowRace] = useState(false);
+  // const [racePositions, setRacePositions] = useState();
+  // const [driverStandings, setDriverStandings] = useState();
+  // const [driver, setDriver] = useState();
+  // const [constructorStandings, setConstructorStandings] = useState();
+  // const [constructor, setConstructor] = useState();
+  // const [showPositions, setShowPositions] = useState(false);
 
   const setYears = useYearsStore(store => store.setYears);
   const year = useYearStore(store => store.year);
   const races = useRacesStore(store => store.races);
   const setRaces = useRacesStore(store => store.setRaces);
-  
+  const circuitInfo = useCircuitInfoStore(store => store.circuitInfo);
+  const setCircuitInfo = useCircuitInfoStore(store => store.setCircuitInfo);
+  const quali = useQualiStore(store => store.quali);
+  const setQuali = useQualiStore(store => store.setQuali);
+  const raceResult = useRaceResultStore(store => store.raceResult);
+  const setRaceResult = useRaceResultStore(store => store.setRaceResult);
+  const sprint = useSprintStore(store => store.sprint);
+  const setSprint = useSprintStore(store => store.setSprint);
+  const showQuali = useShowQualiStore(store => store.showQuali);
+  const setShowQuali = useShowQualiStore(store => store.setShowQuali);
+  const showSprint = useShowSprintStore(store => store.showSprint);
+  const setShowSprint = useShowSprintStore(store => store.setShowSprint);
+  const showRace = useShowRaceStore(store => store.showRace);
+  const setShowRace = useShowRaceStore(store => store.setShowRace);
+  const showPositions = useShowPositionsStore(store => store.showPositions);
+  const setShowPositions = useShowPositionsStore(store => store.setShowPositions);
+  const racePositions = useRacePositionsStore(store => store.racePositions);
+  const setRacePositions = useRacePositionsStore(store => store.setRacePositions);
+  const driverStandings = useDriverStandingsStore(store => store.driverStandings);
+  const setDriverStandings = useDriverStandingsStore(store => store.setDriverStandings);
+  const driver = useDriverStore(store => store.driver);
+  const constructorStandings = useConstructorStandingsStore(store => store.constructorStandings);
+  const setConstructorStandings = useConstructorStandingsStore(store => store.setConstructorStandings);
+  const constructor = useConstructorStore(store => store.constructor);
 
   const { data: raceYears, status: yearsStatus, error: yearsError } = useQuery({
     queryFn: fetchYears,
@@ -157,21 +180,21 @@ const HomePage = () => {
 
   return (
     <div>
-      <YearSelector seasonRaces={seasonRaces} setCircuitInfo={setCircuitInfo} setQuali={setQuali} setRaceResult={setRaceResult} setSprint={setSprint} setRacePositions={setRacePositions} setDriver={setDriver} setShowQuali={setShowQuali} setShowSprint={setShowSprint} setShowRace={setShowRace} setConstructor={setConstructor} setShowPositions={setShowPositions} />
+      <YearSelector seasonRaces={seasonRaces} />
         {year !== "" && 
-          <RaceSelector handleRaceSelect={handleRaceSelect} setQuali={setQuali} circuitInfo={circuitInfo} setRaceResult={setRaceResult} setSprint={setSprint} setRacePositions={setRacePositions} setDriver={setDriver} setShowQuali={setShowQuali} setShowSprint={setShowSprint} setShowRace={setShowRace} setConstructor={setConstructor} setShowPositions={setShowPositions} />
+          <RaceSelector handleRaceSelect={handleRaceSelect} />
         }
-        {circuitInfo !== undefined && <CircuitInfo circuitInfo={circuitInfo} /> }
+        {circuitInfo !== undefined && <CircuitInfo /> }
       {quali !== undefined && <button className="btn mx-2" onClick={() => showQuali ? setShowQuali(false) : setShowQuali(true)}>{showQuali ? "Hide" : "Show"} Qualifying Results</button>}
       {sprint !== undefined && <button className="btn mx-2" onClick={() => showSprint ? setShowSprint(false) : setShowSprint(true)}>{showSprint ? "Hide" : "Show"} Sprint Results</button>}
       {raceResult !== undefined && <button className="btn mx-2" onClick={() => showRace ? setShowRace(false) : setShowRace(true)}>{showRace ? "Hide" : "Show"} Race Results</button>}
       {racePositions !== undefined && <button className="btn mx-2" onClick={() => showPositions ? setShowPositions(false) : setShowPositions(true)}>{showPositions ? "Hide" : "Show"} Race Positions</button>}
-      {(driverStandings !== undefined && driver !== undefined) && <DriverStandingsTable driverStandings={driverStandings} driver={driver} />}
-      {(constructorStandings !== undefined && constructor !== undefined) && <ConstructorStandingsTable constructorStandings={constructorStandings} constructor={constructor} />}
-      {(showQuali && raceResult !== undefined) && <div><h2>Qualifying Results</h2><QualiTable quali={quali} /></div>}
-      {(showSprint && raceResult !== undefined) && <div><h2>Sprint Results</h2><SprintTable sprint={sprint} /></div>}
-      {(showRace && raceResult !== undefined) && <div><h2>Race Results</h2><RaceTable raceResult={raceResult} setDriver={setDriver} setConstructor={setConstructor} /></div>}
-      {(showPositions && racePositions !== undefined) && <PositionsGraph racePositions={racePositions} setRacePositions={setRacePositions} raceResult={raceResult} options={options} />}
+      {(driverStandings !== undefined && driver !== undefined) && <DriverStandingsTable />}
+      {(constructorStandings !== undefined && constructor !== undefined) && <ConstructorStandingsTable />}
+      {(showQuali && raceResult !== undefined) && <div><h2>Qualifying Results</h2><QualiTable /></div>}
+      {(showSprint && raceResult !== undefined) && <div><h2>Sprint Results</h2><SprintTable /></div>}
+      {(showRace && raceResult !== undefined) && <div><h2>Race Results</h2><RaceTable /></div>}
+      {(showPositions && racePositions !== undefined) && <PositionsGraph options={options} />}
     </div>
   )
 }

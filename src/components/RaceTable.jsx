@@ -7,11 +7,15 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
+import { useConstructorStore, useDriverStore, useRaceResultStore } from "@/store";
 import { flexRender, getCoreRowModel, useReactTable } from "@tanstack/react-table"
 import { useState } from "react";
 
-const RaceTable = ({ raceResult, setDriver, setConstructor }) => {
+const RaceTable = () => {
 
+  const raceResult = useRaceResultStore(store => store.raceResult);
+  const setDriver = useDriverStore(store => store.setDriver);
+  const setConstructor = useConstructorStore(store => store.setConstructor);
   const [data, setData] = useState(raceResult.MRData.RaceTable.Races[0].Results);
 
   const columns = [

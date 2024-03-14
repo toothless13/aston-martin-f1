@@ -7,10 +7,14 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
+import { useDriverStandingsStore, useDriverStore } from "@/store";
 import { flexRender, getCoreRowModel, useReactTable } from "@tanstack/react-table"
 import { useEffect, useState } from "react";
 
-const DriverStandingsTable = ({ driverStandings, driver }) => {
+const DriverStandingsTable = () => {
+
+  const driverStandings = useDriverStandingsStore(store => store.driverStandings);
+  const driver = useDriverStore(store => store.driver);
 
   const [allData, setAllData] = useState(driverStandings.StandingsLists[0].DriverStandings);
   const [data, setData] = useState(driverStandings.StandingsLists[0].DriverStandings);

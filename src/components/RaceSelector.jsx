@@ -1,13 +1,23 @@
-import { useRaceStore, useRacesStore } from "@/store";
+import { useRaceStore, useRacesStore, useQualiStore, useRaceResultStore, useSprintStore, useShowQualiStore, useShowSprintStore, useShowRaceStore, useRacePositionsStore, useDriverStore, useConstructorStore, useShowPositionsStore } from "@/store";
 
-const RaceSelector = ({ handleRaceSelect, setQuali, setRaceResult, setRacePositions, setSprint, setDriver, setShowQuali, setShowSprint, setShowRace, setConstructor, setShowPositions }) => {
+const RaceSelector = ({ handleRaceSelect }) => {
   
   const races = useRacesStore(store => store.races);
   const race = useRaceStore(store => store.race);
   const setRace = useRaceStore(store => store.setRace);
+  const resetQuali = useQualiStore(store => store.resetQuali);
+  const resetRaceResult = useRaceResultStore(store => store.resetRaceResult);
+  const resetSprint = useSprintStore(store => store.resetSprint);
+  const resetShowQuali = useShowQualiStore(store => store.resetShowQuali);
+  const resetShowSprint = useShowSprintStore(store => store.resetShowSprint);
+  const resetShowRace = useShowRaceStore(store => store.resetShowRace);
+  const resetRacePositions = useRacePositionsStore(store => store.resetRacePositions);
+  const resetDriver = useDriverStore(store => store.resetDriver);
+  const resetConstructor = useConstructorStore(store => store.resetConstructor);
+  const resetShowPositions = useShowPositionsStore(store => store.resetShowPositions);
 
   return (
-        <select className="text-black" value={race} onChange={e => {setRace(e.target.value); handleRaceSelect(e); setQuali(undefined); setRaceResult(undefined); setRacePositions(undefined); setSprint(undefined); setDriver(undefined); setShowQuali(false); setShowSprint(false); setShowRace(false); setConstructor(undefined); setShowPositions(false); }}>
+        <select className="text-black" value={race} onChange={e => {setRace(e.target.value); handleRaceSelect(e); resetQuali(); resetRaceResult(); resetRacePositions(); resetSprint(); resetDriver(); resetShowQuali(); resetShowSprint(); resetShowRace(); resetConstructor(); resetShowPositions(); }}>
           <option value="" defaultValue hidden>Select a Race</option>
           {races.map(r => <option key={r.round} value={r.raceName}>{r.raceName}</option>)}
         </select>

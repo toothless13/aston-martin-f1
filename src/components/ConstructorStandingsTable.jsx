@@ -7,11 +7,14 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
+import { useConstructorStandingsStore, useConstructorStore } from "@/store";
 import { flexRender, getCoreRowModel, useReactTable } from "@tanstack/react-table"
 import { useEffect, useState } from "react";
 
-const ConstructorStandingsTable = ({ constructorStandings, constructor }) => {
+const ConstructorStandingsTable = () => {
 
+  const constructorStandings = useConstructorStandingsStore(store => store.constructorStandings);
+  const constructor = useConstructorStore(store => store.constructor);
   const [allData, setAllData] = useState(constructorStandings.StandingsLists[0].ConstructorStandings);
   const [data, setData] = useState(constructorStandings.StandingsLists[0].ConstructorStandings);
   // console.log(data);

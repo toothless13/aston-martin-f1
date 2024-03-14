@@ -7,11 +7,13 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
+import { useSprintStore } from "@/store";
 import { flexRender, getCoreRowModel, useReactTable } from "@tanstack/react-table"
 import { useState } from "react";
 
-const SprintTable = ({ sprint }) => {
+const SprintTable = () => {
 
+  const sprint = useSprintStore(store => store.sprint);
   const [data, setData] = useState(sprint.MRData.RaceTable.Races[0].SprintResults);
 
   const columns = [
