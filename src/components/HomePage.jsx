@@ -61,14 +61,30 @@ const HomePage = () => {
     setCircuitInfo(raceInfo);
   }
 
-  const qualiResults = async (year, race) => {
-    const quali = await fetchQualiResults(year, race);
-    if (quali.MRData.RaceTable.Races.length > 0) {
-      setQuali(quali);
-    } else {
-      console.log("No quali results for this time period");
+  const qualiQuery = useQuery({
+    queryKey: ["quali", year, circuitInfo],
+    enabled: circuitInfo !== null,
+    queryFn: () => fetchQualiResults(year, circuitInfo[0].round)
+  });
+
+  useEffect(() => {
+    if (qualiQuery.data) {
+      if (qualiQuery.data.MRData.RaceTable.Races.length > 0) {
+        setQuali(qualiQuery.data);
+      } else {
+        console.log("No quali results for this time period");
+      }
     }
-  }
+  }, [qualiQuery]);
+
+  // const qualiResults = async (year, race) => {
+  //   const quali = await fetchQualiResults(year, race);
+  //   if (quali.MRData.RaceTable.Races.length > 0) {
+  //     setQuali(quali);
+  //   } else {
+  //     console.log("No quali results for this time period");
+  //   }
+  // }
 
   const raceResults = async (year, race) => {
     const raceResults = await fetchRaceResults(year, race);
@@ -95,7 +111,7 @@ const HomePage = () => {
 
   useEffect(() => {
     if (circuitInfo) {
-      qualiResults(year, circuitInfo[0].round);
+      // qualiResults(year, circuitInfo[0].round);
       raceResults(year, circuitInfo[0].round);
       sprintResults(year, circuitInfo[0].round);
     }
@@ -131,15 +147,6 @@ const HomePage = () => {
       fetchConstructorStandings(year, raceNumber).then(res => setConstructorStandings(res));
     }
   }, [raceResult]);
-
-  // if (yearsStatus === "loading") {
-  //   console.log(yearsStatus)
-  //   return <div>Loading...</div>
-  // }
-
-  // if (yearsStatus === "error") {
-  //   return <div>{JSON.stringify(yearsError)}</div>
-  // }
 
   return (
     <div>
