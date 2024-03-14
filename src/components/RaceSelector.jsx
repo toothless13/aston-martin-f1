@@ -1,4 +1,7 @@
-import { useRaceStore, useRacesStore, useQualiStore, useRaceResultStore, useSprintStore, useShowQualiStore, useShowSprintStore, useShowRaceStore, useRacePositionsStore, useDriverStore, useConstructorStore, useShowPositionsStore } from "@/store";
+import { fetchRaces } from "@/api/requests";
+import { useRaceStore, useRacesStore, useQualiStore, useRaceResultStore, useSprintStore, useShowQualiStore, useShowSprintStore, useShowRaceStore, useRacePositionsStore, useDriverStore, useConstructorStore, useShowPositionsStore, useYearStore } from "@/store";
+import { useQuery } from "@tanstack/react-query";
+import { useEffect } from "react";
 
 const RaceSelector = ({ handleRaceSelect }) => {
   
@@ -15,6 +18,20 @@ const RaceSelector = ({ handleRaceSelect }) => {
   const resetDriver = useDriverStore(store => store.resetDriver);
   const resetConstructor = useConstructorStore(store => store.resetConstructor);
   const resetShowPositions = useShowPositionsStore(store => store.resetShowPositions);
+  const year = useYearStore(store => store.year);
+  const setRaces = useRacesStore(store => store.setRaces);
+
+  const racesQuery = useQuery({
+    queryKey: ["races", year],
+    enabled: year !== undefined,
+    queryFn: () => fetchRaces(year)
+  });
+
+  useEffect(() => {
+    if (racesQuery.data) {
+      setRaces(racesQuery.data)
+    }
+  }, [racesQuery]);
 
   return (
         <select className="text-black" value={race} onChange={e => {setRace(e.target.value); handleRaceSelect(e); resetQuali(); resetRaceResult(); resetRacePositions(); resetSprint(); resetDriver(); resetShowQuali(); resetShowSprint(); resetShowRace(); resetConstructor(); resetShowPositions(); }}>

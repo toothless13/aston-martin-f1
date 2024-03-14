@@ -49,16 +49,9 @@ const HomePage = () => {
     queryKey: ["years"],
   });
 
-  const seasonRaces = async (year) => {
-    const races = await fetchRaces(year);
-    setRaces(races);
-  }
-
   useEffect(() => {
-    if (raceYears !== undefined) {
       const yearsArr = raceYears.map(year => year.season);
       setYears(yearsArr);
-    }
   }, [raceYears]);
 
   const handleRaceSelect = (e) => {
@@ -150,7 +143,7 @@ const HomePage = () => {
 
   return (
     <div>
-      <YearSelector seasonRaces={seasonRaces} />
+      <YearSelector />
         {year !== "" && 
           <RaceSelector handleRaceSelect={handleRaceSelect} />
         }

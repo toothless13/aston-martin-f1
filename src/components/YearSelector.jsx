@@ -1,6 +1,6 @@
 import { useCircuitInfoStore, useQualiStore, useRaceResultStore, useRaceStore, useShowQualiStore, useShowSprintStore, useShowRaceStore, useSprintStore, useYearsStore, useYearStore, useRacePositionsStore, useDriverStore, useConstructorStore, useShowPositionsStore } from "@/store";
 
-const YearSelector = ({ seasonRaces }) => {
+const YearSelector = () => {
   
   const years = useYearsStore(store => store.years);
   const year = useYearStore(store => store.year);
@@ -19,7 +19,7 @@ const YearSelector = ({ seasonRaces }) => {
   const resetShowPositions = useShowPositionsStore(store => store.resetShowPositions);
  
   return (
-    <select className="text-black" value={year} onChange={e => {setYear(e.target.value); resetRace(); seasonRaces(e.target.value); resetCircuitInfo(); resetQuali(); resetRaceResult(); resetRacePositions(); resetSprint(); resetDriver(); resetShowQuali(); resetShowSprint(); resetShowRace(); resetConstructor(); resetShowPositions(); }}>
+    <select className="text-black" value={year} onChange={e => {setYear(e.target.value); resetRace(); resetCircuitInfo(); resetQuali(); resetRaceResult(); resetRacePositions(); resetSprint(); resetDriver(); resetShowQuali(); resetShowSprint(); resetShowRace(); resetConstructor(); resetShowPositions(); }}>
       <option value="" defaultValue hidden>Select a Year</option>
       {years.map(y => <option key={y} value={y}>{y}</option>)}
     </select>
