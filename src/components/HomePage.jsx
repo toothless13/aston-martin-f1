@@ -39,21 +39,29 @@ const HomePage = () => {
 
   const years = useYearsStore((store) => store.years);
   const populateYears = useYearsStore((store) => store.fetch);
+  const setYears = useYearsStore(store => store.setYears);
 
-  useEffect(() => {
-    populateYears();
-  }, []);
+  // useEffect(() => {
+  //   populateYears();
+  // }, []);
   
   // console.log(years);
-  // const { data: raceYears, status: yearsStatus, error: yearsError } = useQuery({
-  //   queryFn: fetchYears,
-  //   queryKey: ["years"],
-  // });
+  const { data: raceYears, status: yearsStatus, error: yearsError } = useQuery({
+    queryFn: fetchYears,
+    queryKey: ["years"],
+  });
 
   const seasonRaces = async (year) => {
     const races = await fetchRaces(year);
     setRaces(races);
   }
+
+  useEffect(() => {
+    if (raceYears !== undefined) {
+      const yearsArr = raceYears.map(year => year.season);
+      setYears(yearsArr);
+    }
+  }, [raceYears]);
 
   // useEffect(() => {
   //   if (raceYears !== undefined) {

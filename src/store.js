@@ -8,5 +8,6 @@ export const useYearsStore = create((set) => ({
     // console.log(response);
     // set({ years: await response });
     set({years: await response});
-  }
+  },
+  setYears: (years) => set({years: years})
 }));
