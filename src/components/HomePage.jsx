@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import { fetchConstructorStandings, fetchDriverStandings, fetchQualiResults, fetchRaceResults, fetchRaces, fetchSprint, fetchYears } from "@/api/requests";
 import CircuitInfo from "./CircuitInfo";
 import YearSelector from "./YearSelector";
@@ -7,35 +7,13 @@ import RaceSelector from "./RaceSelector";
 import QualiTable from "./QualiTable";
 import RaceTable from "./RaceTable";
 import SprintTable from "./SprintTable";
-// import { Line } from "react-chartjs-2";
-// import { Chart as ChartJS, LineElement, CategoryScale, LinearScale, PointElement, Legend, Tooltip } from "chart.js";
 import PositionsGraph from "./PositionsGraph";
 import DriverStandingsTable from "./DriverStandingsTable";
 import { racePositionsData } from "@/functions/racePositionsData";
 import ConstructorStandingsTable from "./ConstructorStandingsTable";
 import { useCircuitInfoStore, useConstructorStandingsStore, useConstructorStore, useDriverStandingsStore, useDriverStore, useQualiStore, useRacePositionsStore, useRaceResultStore, useRacesStore, useShowPositionsStore, useShowQualiStore, useShowRaceStore, useShowSprintStore, useSprintStore, useYearStore, useYearsStore } from "@/store";
 
-// ChartJS.register(LineElement, CategoryScale, LinearScale, PointElement, Legend, Tooltip);
-
 const HomePage = () => {
-
-  // const [years, setYears] = useState([]);
-  // const [races, setRaces] = useState([]);
-  // const [year, setYear] = useState("");
-  // const [race, setRace] = useState("");
-  // const [circuitInfo, setCircuitInfo] = useState();
-  // const [quali, setQuali] = useState();
-  // const [raceResult, setRaceResult] = useState();
-  // const [sprint, setSprint] = useState();
-  // const [showQuali, setShowQuali] = useState(false);
-  // const [showSprint, setShowSprint] = useState(false);
-  // const [showRace, setShowRace] = useState(false);
-  // const [racePositions, setRacePositions] = useState();
-  // const [driverStandings, setDriverStandings] = useState();
-  // const [driver, setDriver] = useState();
-  // const [constructorStandings, setConstructorStandings] = useState();
-  // const [constructor, setConstructor] = useState();
-  // const [showPositions, setShowPositions] = useState(false);
 
   const setYears = useYearsStore(store => store.setYears);
   const year = useYearStore(store => store.year);
@@ -82,13 +60,6 @@ const HomePage = () => {
       setYears(yearsArr);
     }
   }, [raceYears]);
-
-  // useEffect(() => {
-  //   if (raceYears !== undefined) {
-  //     const yearsArr = raceYears.map(year => year.season);
-  //     setYears(yearsArr);
-  //   }
-  // }, [raceYears]);
 
   const handleRaceSelect = (e) => {
     e.preventDefault();
@@ -166,7 +137,6 @@ const HomePage = () => {
       fetchDriverStandings(year, raceNumber).then(res => setDriverStandings(res));
       fetchConstructorStandings(year, raceNumber).then(res => setConstructorStandings(res));
     }
-    // console.log(driverStandings);
   }, [raceResult]);
 
   if (yearsStatus === "loading") {

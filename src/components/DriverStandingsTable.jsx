@@ -18,8 +18,7 @@ const DriverStandingsTable = () => {
 
   const [allData, setAllData] = useState(driverStandings.StandingsLists[0].DriverStandings);
   const [data, setData] = useState(driverStandings.StandingsLists[0].DriverStandings);
-  // console.log(data);
-  // driverStandings[0].DriverStandings
+
   const columns = [
     {
       accessorFn: row => `${row.position}`,
