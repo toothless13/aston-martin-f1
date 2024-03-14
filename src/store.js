@@ -19,3 +19,8 @@ export const useRacesStore = create((set) => ({
   races: [],
   setRaces: (races) => set({ races: races })
 }));
+
+export const useRaceStore = create((set) => ({
+  race: "",
+  setRace: (race) => set({ race: race})
+}));

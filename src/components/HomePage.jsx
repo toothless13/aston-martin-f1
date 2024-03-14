@@ -13,7 +13,7 @@ import PositionsGraph from "./PositionsGraph";
 import DriverStandingsTable from "./DriverStandingsTable";
 import { racePositionsData } from "@/functions/racePositionsData";
 import ConstructorStandingsTable from "./ConstructorStandingsTable";
-import { useRacesStore, useYearStore, useYearsStore } from "@/store";
+import { useRaceStore, useRacesStore, useYearStore, useYearsStore } from "@/store";
 
 // ChartJS.register(LineElement, CategoryScale, LinearScale, PointElement, Legend, Tooltip);
 
@@ -22,7 +22,7 @@ const HomePage = () => {
   // const [years, setYears] = useState([]);
   // const [races, setRaces] = useState([]);
   // const [year, setYear] = useState("");
-  const [race, setRace] = useState("");
+  // const [race, setRace] = useState("");
   const [circuitInfo, setCircuitInfo] = useState();
   const [quali, setQuali] = useState();
   const [raceResult, setRaceResult] = useState();
@@ -37,18 +37,12 @@ const HomePage = () => {
   const [constructor, setConstructor] = useState();
   const [showPositions, setShowPositions] = useState(false);
 
-  // const years = useYearsStore((store) => store.years);
-  // const populateYears = useYearsStore((store) => store.fetch);
   const setYears = useYearsStore(store => store.setYears);
-  const year = useYearStore((store) => store.year);
-  const races = useRacesStore((store => store.races));
-  const setRaces = useRacesStore((store => store.setRaces));
-
-  // useEffect(() => {
-  //   populateYears();
-  // }, []);
+  const year = useYearStore(store => store.year);
+  const races = useRacesStore(store => store.races);
+  const setRaces = useRacesStore(store => store.setRaces);
   
-  // console.log(years);
+
   const { data: raceYears, status: yearsStatus, error: yearsError } = useQuery({
     queryFn: fetchYears,
     queryKey: ["years"],
@@ -165,7 +159,7 @@ const HomePage = () => {
     <div>
       <YearSelector seasonRaces={seasonRaces} setCircuitInfo={setCircuitInfo} setQuali={setQuali} setRaceResult={setRaceResult} setSprint={setSprint} setRacePositions={setRacePositions} setDriver={setDriver} setShowQuali={setShowQuali} setShowSprint={setShowSprint} setShowRace={setShowRace} setConstructor={setConstructor} setShowPositions={setShowPositions} />
         {year !== "" && 
-          <RaceSelector race={race} setRace={setRace} handleRaceSelect={handleRaceSelect} setQuali={setQuali} circuitInfo={circuitInfo} setRaceResult={setRaceResult} setSprint={setSprint} setRacePositions={setRacePositions} setDriver={setDriver} setShowQuali={setShowQuali} setShowSprint={setShowSprint} setShowRace={setShowRace} setConstructor={setConstructor} setShowPositions={setShowPositions} />
+          <RaceSelector handleRaceSelect={handleRaceSelect} setQuali={setQuali} circuitInfo={circuitInfo} setRaceResult={setRaceResult} setSprint={setSprint} setRacePositions={setRacePositions} setDriver={setDriver} setShowQuali={setShowQuali} setShowSprint={setShowSprint} setShowRace={setShowRace} setConstructor={setConstructor} setShowPositions={setShowPositions} />
         }
         {circuitInfo !== undefined && <CircuitInfo circuitInfo={circuitInfo} /> }
       {quali !== undefined && <button className="btn mx-2" onClick={() => showQuali ? setShowQuali(false) : setShowQuali(true)}>{showQuali ? "Hide" : "Show"} Qualifying Results</button>}
