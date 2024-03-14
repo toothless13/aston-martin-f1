@@ -11,7 +11,7 @@ import PositionsGraph from "./PositionsGraph";
 import DriverStandingsTable from "./DriverStandingsTable";
 import { racePositionsData } from "@/functions/racePositionsData";
 import ConstructorStandingsTable from "./ConstructorStandingsTable";
-import { useCircuitInfoStore, useConstructorStandingsStore, useConstructorStore, useDriverStandingsStore, useDriverStore, useQualiStore, useRacePositionsStore, useRaceResultStore, useRacesStore, useShowPositionsStore, useShowQualiStore, useShowRaceStore, useShowSprintStore, useSprintStore, useYearStore, useYearsStore } from "@/store";
+import { useCircuitInfoStore, useConstructorStandingsStore, useConstructorStore, useDriverStandingsStore, useDriverStore, useQualiStore, useRacePositionsStore, useRaceResultStore, useRaceStore, useRacesStore, useShowPositionsStore, useShowQualiStore, useShowRaceStore, useShowSprintStore, useSprintStore, useYearStore, useYearsStore } from "@/store";
 
 const HomePage = () => {
 
@@ -44,15 +44,15 @@ const HomePage = () => {
   const setConstructorStandings = useConstructorStandingsStore(store => store.setConstructorStandings);
   const constructor = useConstructorStore(store => store.constructor);
 
-  const { data: raceYears, status: yearsStatus, error: yearsError } = useQuery({
-    queryFn: fetchYears,
-    queryKey: ["years"],
-  });
+  // const { data: raceYears, status: yearsStatus, error: yearsError } = useQuery({
+  //   queryFn: fetchYears,
+  //   queryKey: ["years"],
+  // });
 
-  useEffect(() => {
-      const yearsArr = raceYears.map(year => year.season);
-      setYears(yearsArr);
-  }, [raceYears]);
+  // useEffect(() => {
+  //     const yearsArr = raceYears.map(year => year.season);
+  //     setYears(yearsArr);
+  // }, [raceYears]);
 
   const handleRaceSelect = (e) => {
     e.preventDefault();
@@ -132,14 +132,14 @@ const HomePage = () => {
     }
   }, [raceResult]);
 
-  if (yearsStatus === "loading") {
-    console.log(yearsStatus)
-    return <div>Loading...</div>
-  }
+  // if (yearsStatus === "loading") {
+  //   console.log(yearsStatus)
+  //   return <div>Loading...</div>
+  // }
 
-  if (yearsStatus === "error") {
-    return <div>{JSON.stringify(yearsError)}</div>
-  }
+  // if (yearsStatus === "error") {
+  //   return <div>{JSON.stringify(yearsError)}</div>
+  // }
 
   return (
     <div>
