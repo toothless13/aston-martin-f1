@@ -53,7 +53,7 @@ const HomePage = () => {
 
   const qualiQuery = useQuery({
     queryKey: ["quali", year, circuitInfo],
-    enabled: (year !== undefined && circuitInfo !== null),
+    enabled: circuitInfo != undefined,
     queryFn: () => fetchQualiResults(year, circuitInfo[0].round)
   });
 
@@ -65,11 +65,11 @@ const HomePage = () => {
         console.log("No quali results for this time period");
       }
     }
-  }, [qualiQuery]);
+  }, [circuitInfo, qualiQuery.data]);
 
   const raceResultQuery = useQuery({
     queryKey: ["raceResult", year, circuitInfo],
-    enabled: (year !== undefined && circuitInfo !== null),
+    enabled: circuitInfo != undefined,
     queryFn: () => fetchRaceResults(year, circuitInfo[0].round)
   });
 
@@ -79,11 +79,11 @@ const HomePage = () => {
     } else {
       console.log("No race results for this time period");
     }
-  }, [raceResultQuery]);
+  }, [circuitInfo, raceResultQuery.data]);
 
   const sprintQuery = useQuery({
     queryKey: ["sprintResult", year, circuitInfo],
-    enable: (year !== undefined && circuitInfo !== null),
+    enabled: circuitInfo != undefined,
     queryFn: () => fetchSprint(year, circuitInfo[0].round)
   });
 
@@ -98,7 +98,7 @@ const HomePage = () => {
     } else {
       console.log("There was no Sprint at this race event");      
     }
-  }, [sprintQuery]);
+  }, [circuitInfo, sprintQuery.data]);
 
   const options = useRef();
 
@@ -138,9 +138,17 @@ const HomePage = () => {
           <RaceSelector handleRaceSelect={handleRaceSelect} />
         }
         {circuitInfo !== undefined && <CircuitInfo /> }
-      {quali !== undefined && <button className="btn mx-2" onClick={() => showQuali ? setShowQuali(false) : setShowQuali(true)}>{showQuali ? "Hide" : "Show"} Qualifying Results</button>}
-      {sprint !== undefined && <button className="btn mx-2" onClick={() => showSprint ? setShowSprint(false) : setShowSprint(true)}>{showSprint ? "Hide" : "Show"} Sprint Results</button>}
-      {raceResult !== undefined && <button className="btn mx-2" onClick={() => showRace ? setShowRace(false) : setShowRace(true)}>{showRace ? "Hide" : "Show"} Race Results</button>}
+      {/* {quali !== undefined && <button className="btn mx-2" onClick={() => showQuali ? setShowQuali(false) : setShowQuali(true)}>{showQuali ? "Hide" : "Show"} Qualifying Results</button>} */}
+      {/* {qualiQuery.status === "loading" && qualiQuery.data.length > 0 ? <div>Loading</div> : <div>Loaded</div>} */}
+      {/* {qualiQuery.isFetching && qualiQuery.data !== null ? <div>Loading</div> : <div>Loaded</div>} */}
+      {/* {raceResultQuery.fetchStatus !== "idle" ? <div>Not Idle</div> : null} */}
+      {qualiQuery.data == null ? (qualiQuery.isFetching ? <div>Loading</div> : null) : quali !== undefined ? <button className="btn mx-2" onClick={() => showQuali ? setShowQuali(false) : setShowQuali(true)}>{showQuali ? "Hide" : "Show"} Qualifying Results</button> : null}
+      {sprintQuery.data == null ? (sprintQuery.isFetching ? <div>Loading</div> : null) : sprint !== undefined && <button className="btn mx-2" onClick={() => showSprint ? setShowSprint(false) : setShowSprint(true)}>{showSprint ? "Hide" : "Show"} Sprint Results</button>}  
+      {raceResultQuery.data == null ? (raceResultQuery.isFetching ? <div>Loading</div> : null) : <button className="btn mx-2" onClick={() => showRace ? setShowRace(false) : setShowRace(true)}>{showRace ? "Hide" : "Show"} Race Results</button>}
+
+      {/* {raceResultQuery.isSuccess ? <div>Loaded</div> : <div>Loading</div>} */}
+      {/* {sprint !== undefined && <button className="btn mx-2" onClick={() => showSprint ? setShowSprint(false) : setShowSprint(true)}>{showSprint ? "Hide" : "Show"} Sprint Results</button>} */}
+      {/* {raceResult !== undefined && <button className="btn mx-2" onClick={() => showRace ? setShowRace(false) : setShowRace(true)}>{showRace ? "Hide" : "Show"} Race Results</button>} */}
       {racePositions !== undefined && <button className="btn mx-2" onClick={() => showPositions ? setShowPositions(false) : setShowPositions(true)}>{showPositions ? "Hide" : "Show"} Race Positions</button>}
       {(driverStandings !== undefined && driver !== undefined && showRace === true) && <DriverStandingsTable />}
       {(constructorStandings !== undefined && constructor !== undefined && showRace === true) && <ConstructorStandingsTable />}
