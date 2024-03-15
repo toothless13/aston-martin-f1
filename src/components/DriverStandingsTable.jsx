@@ -73,7 +73,9 @@ const DriverStandingsTable = () => {
   return (
     <div>
       {showDriverStandings &&
-      <div> 
+      <div>
+        <h2>Driver Standings</h2>
+        <div className="flex justify-center">
         <Table className="w-1/3 mx-4">
         {table.getHeaderGroups().map(headerGroup => 
           <TableHeader className="tr" key={headerGroup.id}>
@@ -98,7 +100,8 @@ const DriverStandingsTable = () => {
               </TableRow>)}
           </TableBody>
         </Table>
-        <button onClick={() => setShowDriverStandings(false) }>Hide Driver Standings</button>
+        <button onClick={() => setShowDriverStandings(false)} className="mr-20 ml-0 cursor-pointer cur text-red-700">x</button>
+        </div>
         </div>
       }
     </div>

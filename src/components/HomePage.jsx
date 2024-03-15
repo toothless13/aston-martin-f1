@@ -12,6 +12,7 @@ import DriverStandingsTable from "./DriverStandingsTable";
 import { racePositionsData } from "@/functions/racePositionsData";
 import ConstructorStandingsTable from "./ConstructorStandingsTable";
 import { useCircuitInfoStore, useConstructorStandingsStore, useConstructorStore, useDriverStandingsStore, useDriverStore, useQualiStore, useRacePositionsStore, useRaceResultStore, useRacesStore, useShowDriverStandingsStore, useShowPositionsStore, useShowQualiStore, useShowRaceStore, useShowSprintStore, useSprintStore, useYearStore } from "@/store";
+import { ScrollArea } from "@/components/ui/scroll-area"
 
 const HomePage = () => {
 
@@ -138,25 +139,27 @@ const HomePage = () => {
             <RaceSelector handleRaceSelect={handleRaceSelect} />
           }
       </div>
-      <div className="grid grid-cols-8 grid-rows-2">
+      <div className="grid grid-cols-10">
           <div className="flex flex-col col-span-2">
           {circuitInfo !== undefined && <CircuitInfo /> }
             <div className="flex flex-col justify-between h-40 items-start p-2">
-            {qualiQuery.data == null ? (qualiQuery.isFetching ? <div>Loading</div> : null) : quali !== undefined ? <button className="btn mx-2" onClick={() => showQuali ? setShowQuali(false) : setShowQuali(true)}>{showQuali ? "Hide" : "Show"} Qualifying Results</button> : null}
-            {sprintQuery.data == null ? (sprintQuery.isFetching ? <div>Loading</div> : null) : sprint !== undefined && <button className="btn mx-2" onClick={() => showSprint ? setShowSprint(false) : setShowSprint(true)}>{showSprint ? "Hide" : "Show"} Sprint Results</button>}  
-            {raceResultQuery.data == null ? (raceResultQuery.isFetching ? <div>Loading</div> : null) : <button className="btn mx-2" onClick={() => showRace ? setShowRace(false) : setShowRace(true)}>{showRace ? "Hide" : "Show"} Race Results</button>}
+            {qualiQuery.data == null ? (qualiQuery.isFetching ? <div>Loading</div> : null) : quali !== undefined ? <button className="btn mx-2" onClick={() => {showQuali ? setShowQuali(false) : setShowQuali(true); setShowSprint(false); setShowRace(false);}}>{showQuali ? "Hide" : "Show"} Qualifying Results</button> : null}
+            {sprintQuery.data == null ? (sprintQuery.isFetching ? <div>Loading</div> : null) : sprint !== undefined && <button className="btn mx-2" onClick={() => {showSprint ? setShowSprint(false) : setShowSprint(true); setShowQuali(false); setShowRace(false);}}>{showSprint ? "Hide" : "Show"} Sprint Results</button>}  
+            {raceResultQuery.data == null ? (raceResultQuery.isFetching ? <div>Loading</div> : null) : <button className="btn mx-2" onClick={() => {showRace ? setShowRace(false) : setShowRace(true); setShowQuali(false); setShowSprint(false);}}>{showRace ? "Hide" : "Show"} Race Results</button>}
             {racePositions !== undefined && <button className="btn mx-2" onClick={() => showPositions ? setShowPositions(false) : setShowPositions(true)}>{showPositions ? "Hide" : "Show"} Race Positions</button>}
             </div>
           </div>
-          <div className="col-start-4 col-span-5">
-          {(showQuali && raceResult !== undefined) && <div className=" h-1/2 overflow-y-scroll"><h2>Qualifying Results</h2><QualiTable /></div>}
-          {(showSprint && raceResult !== undefined) && <div><h2>Sprint Results</h2><SprintTable /></div>}
-          {(showRace && raceResult !== undefined) && <div><h2>Race Results</h2><RaceTable /></div>}
-          {(showPositions && racePositions !== undefined) && <PositionsGraph options={options} />}
+          <div className="col-start-3 col-span-4">
+          {(showQuali && raceResult !== undefined) && <div className="w-3/4 h-1/2"><h2>Qualifying Results</h2><ScrollArea className="h-[600px] w-fit rounded-md border p-4"><QualiTable /></ScrollArea></div>}
+          {(showSprint && raceResult !== undefined) && <div className="w-3/4 h-1/2"><h2>Sprint Results</h2><ScrollArea className="h-[600px] w-fit rounded-md border p-4"><SprintTable /></ScrollArea></div>}
+          {(showRace && raceResult !== undefined) && <div className="w-3/4 h-1/2"><h2>Race Results</h2><p>Click on Driver Name or Constructor to see their position in Driver and Constructor Standings</p><ScrollArea className="h-[600px] w-fit rounded-md border p-4"><RaceTable /></ScrollArea></div>}
+          </div>
+          <div className="col-start-8 col-span-3 flex flex-col justify-center">
+            {(driverStandings !== undefined && driver !== undefined && showRace === true) && <DriverStandingsTable />}
+            {(constructorStandings !== undefined && constructor !== undefined && showRace === true) && <ConstructorStandingsTable />}
           </div>
         </div>
-      {(driverStandings !== undefined && driver !== undefined && showRace === true) && <DriverStandingsTable />}
-      {(constructorStandings !== undefined && constructor !== undefined && showRace === true) && <ConstructorStandingsTable />}
+      {(showPositions && racePositions !== undefined) && <PositionsGraph options={options} />}
     </div>
   )
 }
