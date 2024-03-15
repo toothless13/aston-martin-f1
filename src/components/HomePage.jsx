@@ -189,9 +189,6 @@ const HomePage = () => {
         layout: {
           padding: 10,
         },
-        interaction: {
-          mode: "dataset"
-        }
       }
     }
   }, [raceResult]);
@@ -199,7 +196,7 @@ const HomePage = () => {
   useEffect(() => {
     if (raceResult) {
       const raceNumber = raceResult.MRData.RaceTable.round;
-      fetchDriverStandings(year, raceNumber).then(res => {console.log("success"); setDriverStandings(res)});
+      fetchDriverStandings(year, raceNumber).then(res => { setDriverStandings(res)});
       fetchConstructorStandings(year, raceNumber).then(res => setConstructorStandings(res));
     }
   }, [raceResult]);
