@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { useEffect, useRef } from "react";
-import { fetchConstructorStandings, fetchDriverStandings, fetchQualiResults, fetchRaceResults, fetchRaces, fetchSprint, fetchYears } from "@/api/requests";
+import { fetchConstructorStandings, fetchDriverStandings, fetchQualiResults, fetchRaceResults, fetchSprint } from "@/api/requests";
 import CircuitInfo from "./CircuitInfo";
 import YearSelector from "./YearSelector";
 import RaceSelector from "./RaceSelector";
@@ -11,14 +11,12 @@ import PositionsGraph from "./PositionsGraph";
 import DriverStandingsTable from "./DriverStandingsTable";
 import { racePositionsData } from "@/functions/racePositionsData";
 import ConstructorStandingsTable from "./ConstructorStandingsTable";
-import { useCircuitInfoStore, useConstructorStandingsStore, useConstructorStore, useDriverStandingsStore, useDriverStore, useQualiStore, useRacePositionsStore, useRaceResultStore, useRaceStore, useRacesStore, useShowPositionsStore, useShowQualiStore, useShowRaceStore, useShowSprintStore, useSprintStore, useYearStore, useYearsStore } from "@/store";
+import { useCircuitInfoStore, useConstructorStandingsStore, useConstructorStore, useDriverStandingsStore, useDriverStore, useQualiStore, useRacePositionsStore, useRaceResultStore, useRacesStore, useShowPositionsStore, useShowQualiStore, useShowRaceStore, useShowSprintStore, useSprintStore, useYearStore } from "@/store";
 
 const HomePage = () => {
 
-  const setYears = useYearsStore(store => store.setYears);
   const year = useYearStore(store => store.year);
   const races = useRacesStore(store => store.races);
-  const setRaces = useRacesStore(store => store.setRaces);
   const circuitInfo = useCircuitInfoStore(store => store.circuitInfo);
   const setCircuitInfo = useCircuitInfoStore(store => store.setCircuitInfo);
   const quali = useQualiStore(store => store.quali);
@@ -104,7 +102,7 @@ const HomePage = () => {
 
   useEffect(() => {
     const numYear = Number(year);
-    if (raceResult && numYear > 1995) {      
+    if (raceResult && numYear > 1995) {
       racePositionsData(raceResult).then(res => setRacePositions(res));
       const numOfDrivers = raceResult.MRData.total;
 
@@ -138,17 +136,9 @@ const HomePage = () => {
           <RaceSelector handleRaceSelect={handleRaceSelect} />
         }
         {circuitInfo !== undefined && <CircuitInfo /> }
-      {/* {quali !== undefined && <button className="btn mx-2" onClick={() => showQuali ? setShowQuali(false) : setShowQuali(true)}>{showQuali ? "Hide" : "Show"} Qualifying Results</button>} */}
-      {/* {qualiQuery.status === "loading" && qualiQuery.data.length > 0 ? <div>Loading</div> : <div>Loaded</div>} */}
-      {/* {qualiQuery.isFetching && qualiQuery.data !== null ? <div>Loading</div> : <div>Loaded</div>} */}
-      {/* {raceResultQuery.fetchStatus !== "idle" ? <div>Not Idle</div> : null} */}
       {qualiQuery.data == null ? (qualiQuery.isFetching ? <div>Loading</div> : null) : quali !== undefined ? <button className="btn mx-2" onClick={() => showQuali ? setShowQuali(false) : setShowQuali(true)}>{showQuali ? "Hide" : "Show"} Qualifying Results</button> : null}
       {sprintQuery.data == null ? (sprintQuery.isFetching ? <div>Loading</div> : null) : sprint !== undefined && <button className="btn mx-2" onClick={() => showSprint ? setShowSprint(false) : setShowSprint(true)}>{showSprint ? "Hide" : "Show"} Sprint Results</button>}  
       {raceResultQuery.data == null ? (raceResultQuery.isFetching ? <div>Loading</div> : null) : <button className="btn mx-2" onClick={() => showRace ? setShowRace(false) : setShowRace(true)}>{showRace ? "Hide" : "Show"} Race Results</button>}
-
-      {/* {raceResultQuery.isSuccess ? <div>Loaded</div> : <div>Loading</div>} */}
-      {/* {sprint !== undefined && <button className="btn mx-2" onClick={() => showSprint ? setShowSprint(false) : setShowSprint(true)}>{showSprint ? "Hide" : "Show"} Sprint Results</button>} */}
-      {/* {raceResult !== undefined && <button className="btn mx-2" onClick={() => showRace ? setShowRace(false) : setShowRace(true)}>{showRace ? "Hide" : "Show"} Race Results</button>} */}
       {racePositions !== undefined && <button className="btn mx-2" onClick={() => showPositions ? setShowPositions(false) : setShowPositions(true)}>{showPositions ? "Hide" : "Show"} Race Positions</button>}
       {(driverStandings !== undefined && driver !== undefined && showRace === true) && <DriverStandingsTable />}
       {(constructorStandings !== undefined && constructor !== undefined && showRace === true) && <ConstructorStandingsTable />}

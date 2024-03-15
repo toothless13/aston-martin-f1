@@ -35,7 +35,6 @@ export const racePositionsData = async (raceResult) => {
   const data = await getWithForOf();
   const allDriverLaps = [];
   data.forEach(driver => {
-    // console.log(driver);
     const individualDriverLaps = driver.map(lap => lap.Timings[0].position ? lap.Timings[0].position : "0");
     const driverIndex = driversInfoArray.findIndex(driverInfo => driverInfo.driverId === driver[0].Timings[0].driverId ? driverInfo.name : "");
     const name = driversInfoArray[driverIndex].name;
@@ -52,9 +51,4 @@ export const racePositionsData = async (raceResult) => {
       labels: lapsArray,
       datasets: allDriverLaps
     }
-
-  // setRacePositions({
-  //   labels: lapsArray,
-  //   datasets: allDriverLaps
-  // });
 }
