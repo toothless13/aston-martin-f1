@@ -10,7 +10,7 @@ const PositionsGraph = ({ options }) => {
   const racePositions = useRacePositionsStore(store => store.racePositions);
   
   return (
-    <div className="my-10 mx-auto bg-white rounded-md text-black w-11/12">
+    <div className="mt-5 mx-auto bg-white rounded-md text-black w-11/12">
       <Line data={racePositions} options={options.current} ></Line>
     </div>
   )

@@ -189,6 +189,9 @@ const HomePage = () => {
         layout: {
           padding: 10,
         },
+        interaction: {
+          mode: "dataset"
+        }
       }
     }
   }, [raceResult]);
@@ -196,7 +199,7 @@ const HomePage = () => {
   useEffect(() => {
     if (raceResult) {
       const raceNumber = raceResult.MRData.RaceTable.round;
-      fetchDriverStandings(year, raceNumber).then(res => setDriverStandings(res));
+      fetchDriverStandings(year, raceNumber).then(res => {console.log("success"); setDriverStandings(res)});
       fetchConstructorStandings(year, raceNumber).then(res => setConstructorStandings(res));
     }
   }, [raceResult]);
@@ -213,10 +216,10 @@ const HomePage = () => {
           <div className="flex flex-col col-span-2">
           {circuitInfo !== undefined && <CircuitInfo /> }
             <div className="flex flex-col justify-between h-40 items-start p-2">
-            {qualiQuery.data == null ? (qualiQuery.isFetching ? <div>Loading</div> : null) : quali !== undefined ? <button className="btn mx-2" onClick={() => {showQuali ? setShowQuali(false) : setShowQuali(true); setShowSprint(false); setShowRace(false);}}>{showQuali ? "Hide" : "Show"} Qualifying Results</button> : null}
-            {raceResultQuery.data == null ? (raceResultQuery.isFetching ? <div>Loading</div> : null) : <button className="btn mx-2" onClick={() => {showRace ? setShowRace(false) : setShowRace(true); setShowQuali(false); setShowSprint(false);}}>{showRace ? "Hide" : "Show"} Race Results</button>}
-            {sprintQuery.data == null ? (sprintQuery.isFetching ? <div>Loading</div> : null) : sprint !== undefined && <button className="btn mx-2" onClick={() => {showSprint ? setShowSprint(false) : setShowSprint(true); setShowQuali(false); setShowRace(false);}}>{showSprint ? "Hide" : "Show"} Sprint Results</button>}  
-            {racePositions !== undefined && <button className="btn mx-2" onClick={() => showPositions ? setShowPositions(false) : setShowPositions(true)}>{showPositions ? "Hide" : "Show"} Race Positions</button>}
+            {qualiQuery.data == null ? (qualiQuery.isFetching ? <div>Loading</div> : null) : quali !== undefined ? <button className="btn mx-2 text-gray-900 bg-gradient-to-r from-lime-200 to-amlime hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-lime-300 dark:focus:ring-lime-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-4" onClick={() => {showQuali ? setShowQuali(false) : setShowQuali(true); setShowSprint(false); setShowRace(false);}}>{showQuali ? "Hide" : "Show"} Qualifying Results</button> : null}
+            {raceResultQuery.data == null ? (raceResultQuery.isFetching ? <div>Loading</div> : null) : <button className="btn mx-2 text-gray-900 bg-gradient-to-r from-lime-200 to-amlime hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-lime-300 dark:focus:ring-lime-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-4" onClick={() => {showRace ? setShowRace(false) : setShowRace(true); setShowQuali(false); setShowSprint(false);}}>{showRace ? "Hide" : "Show"} Race Results</button>}
+            {sprintQuery.data == null ? (sprintQuery.isFetching ? <div>Loading</div> : null) : sprint !== undefined && <button className="btn mx-2 text-gray-900 bg-gradient-to-r from-lime-200 to-amlime hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-lime-300 dark:focus:ring-lime-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-4" onClick={() => {showSprint ? setShowSprint(false) : setShowSprint(true); setShowQuali(false); setShowRace(false);}}>{showSprint ? "Hide" : "Show"} Sprint Results</button>}  
+            {racePositions !== undefined && <button className="btn mx-2 text-gray-900 bg-gradient-to-r from-lime-200 to-amlime hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-lime-300 dark:focus:ring-lime-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-4" onClick={() => showPositions ? setShowPositions(false) : setShowPositions(true)}>{showPositions ? "Hide" : "Show"} Race Positions</button>}
             </div>
           </div>
           <div className="col-start-3 col-span-4">
@@ -229,7 +232,7 @@ const HomePage = () => {
             {(constructorStandings !== undefined && constructor !== undefined && showRace === true) && <ConstructorStandingsTable />}
           </div>
         </div>
-      {(showPositions && racePositions !== undefined) && <PositionsGraph options={options} />}
+      {(showPositions && racePositions !== undefined) && <div className="py-10 flex flex-col items-center"><h2>Race Positions</h2><p>Click on a driver to see their race positions throughout the race</p><PositionsGraph options={options} /></div>}
     </div>
   )
 }
