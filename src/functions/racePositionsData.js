@@ -33,6 +33,7 @@ export const racePositionsData = async (raceResult) => {
     return data;
   }
   const data = await getWithForOf();
+  // const allDriverLaps = [{label: "Hide All", data: []}, {label: "Show All", data: []}];
   const allDriverLaps = [];
   data.forEach(driver => {
     const individualDriverLaps = driver.map(lap => lap.Timings[0].position ? lap.Timings[0].position : "0");
@@ -42,7 +43,8 @@ export const racePositionsData = async (raceResult) => {
     individualDriverLaps.unshift(gridPosition);
     const driverData = {
       label: name,
-      data: individualDriverLaps
+      data: individualDriverLaps,
+      tension: 0.3
     }
     allDriverLaps.push(driverData);
     });

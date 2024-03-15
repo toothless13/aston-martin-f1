@@ -12,7 +12,8 @@ import DriverStandingsTable from "./DriverStandingsTable";
 import { racePositionsData } from "@/functions/racePositionsData";
 import ConstructorStandingsTable from "./ConstructorStandingsTable";
 import { useCircuitInfoStore, useConstructorStandingsStore, useConstructorStore, useDriverStandingsStore, useDriverStore, useQualiStore, useRacePositionsStore, useRaceResultStore, useRacesStore, useShowDriverStandingsStore, useShowPositionsStore, useShowQualiStore, useShowRaceStore, useShowSprintStore, useSprintStore, useYearStore } from "@/store";
-import { ScrollArea } from "@/components/ui/scroll-area"
+import { ScrollArea } from "@/components/ui/scroll-area";
+import autocolors from "chartjs-plugin-autocolors";
 
 const HomePage = () => {
 
@@ -42,7 +43,6 @@ const HomePage = () => {
   const constructorStandings = useConstructorStandingsStore(store => store.constructorStandings);
   const setConstructorStandings = useConstructorStandingsStore(store => store.setConstructorStandings);
   const constructor = useConstructorStore(store => store.constructor);
-  const setShowDriverStandings = useShowDriverStandingsStore(store => store.setShowDriverStandings);
 
   const handleRaceSelect = (e) => {
     e.preventDefault();
@@ -110,15 +110,35 @@ const HomePage = () => {
 
       options.current = {
         plugins: {
-          legend: true,
+          legend: {
+            display: true,
+            labels: {
+              color: "black"
+            }
+          },
+          autocolors : {
+            mode: "datasets",
+          }
         },
         scales: {
           y: {
             min: 1,
             max: Number(numOfDrivers),
             reverse: true,
+            display: true,
+            position: "left"
+          },
+          right: {
+            min: 1,
+            max: Number(numOfDrivers),
+            reverse: true,
+            display: true,
+            position: "right"
+          },
+          top: {
+            position: "top",
           }
-        }
+        },
       }
     }
   }, [raceResult]);
