@@ -116,8 +116,11 @@ const HomePage = () => {
               color: "black"
             }
           },
-          autocolors : {
-            mode: "datasets",
+          // autocolors : {
+          //   mode: "label",
+          // },
+          colors: {
+            enabled: true
           }
         },
         scales: {
@@ -126,7 +129,7 @@ const HomePage = () => {
             max: Number(numOfDrivers),
             reverse: true,
             display: true,
-            position: "left"
+            position: "left",
           },
           right: {
             min: 1,
@@ -138,6 +141,9 @@ const HomePage = () => {
           top: {
             position: "top",
           }
+        },
+        layout: {
+          padding: 10,
         },
       }
     }

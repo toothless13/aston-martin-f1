@@ -44,10 +44,13 @@ export const racePositionsData = async (raceResult) => {
     const driverData = {
       label: name,
       data: individualDriverLaps,
-      tension: 0.3
+      tension: 0.3,
+      hidden: true,
     }
     allDriverLaps.push(driverData);
     });
+
+    allDriverLaps[0].hidden = false;
 
     return await {
       labels: lapsArray,
