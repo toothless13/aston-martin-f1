@@ -34,7 +34,7 @@ const RaceSelector = ({ handleRaceSelect }) => {
   }, [racesQuery]);
 
   return (
-        <select className="text-black" value={race} onChange={e => {setRace(e.target.value); handleRaceSelect(e); resetQuali(); resetRaceResult(); resetRacePositions(); resetSprint(); resetDriver(); resetShowQuali(); resetShowSprint(); resetShowRace(); resetConstructor(); resetShowPositions(); }}>
+        <select className="text-black border-amlime border-2 rounded-md m-4 h-8" value={race} onChange={e => {setRace(e.target.value); handleRaceSelect(e); resetQuali(); resetRaceResult(); resetRacePositions(); resetSprint(); resetDriver(); resetShowQuali(); resetShowSprint(); resetShowRace(); resetConstructor(); resetShowPositions(); }}>
           <option value="" defaultValue hidden>Select a Race</option>
           {races.map(r => <option key={r.round} value={r.raceName}>{r.raceName}</option>)}
         </select>
