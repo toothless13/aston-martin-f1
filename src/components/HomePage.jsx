@@ -44,16 +44,6 @@ const HomePage = () => {
   const setConstructorStandings = useConstructorStandingsStore(store => store.setConstructorStandings);
   const constructor = useConstructorStore(store => store.constructor);
 
-  // const { data: raceYears, status: yearsStatus, error: yearsError } = useQuery({
-  //   queryFn: fetchYears,
-  //   queryKey: ["years"],
-  // });
-
-  // useEffect(() => {
-  //     const yearsArr = raceYears.map(year => year.season);
-  //     setYears(yearsArr);
-  // }, [raceYears]);
-
   const handleRaceSelect = (e) => {
     e.preventDefault();
     const raceName = e.target.value;
@@ -75,16 +65,7 @@ const HomePage = () => {
         console.log("No quali results for this time period");
       }
     }
-  }, [circuitInfo]);
-
-  // const qualiResults = async (year, race) => {
-  //   const quali = await fetchQualiResults(year, race);
-  //   if (quali.MRData.RaceTable.Races.length > 0) {
-  //     setQuali(quali);
-  //   } else {
-  //     console.log("No quali results for this time period");
-  //   }
-  // }
+  }, [qualiQuery]);
 
   const raceResultQuery = useQuery({
     queryKey: ["raceResult", year, circuitInfo],
@@ -98,16 +79,7 @@ const HomePage = () => {
     } else {
       console.log("No race results for this time period");
     }
-  }, [circuitInfo]);
-
-  // const raceResults = async (year, race) => {
-  //   const raceResults = await fetchRaceResults(year, race);
-  //   if (raceResults.MRData.RaceTable.Races.length > 0) {
-  //     setRaceResult(raceResults);
-  //   } else {
-  //     console.log("No race results for this combination");
-  //   }
-  // }
+  }, [raceResultQuery]);
 
   const sprintQuery = useQuery({
     queryKey: ["sprintResult", year, circuitInfo],
@@ -126,29 +98,7 @@ const HomePage = () => {
     } else {
       console.log("There was no Sprint at this race event");      
     }
-  }, [circuitInfo, year]);
-
-  // const sprintResults = async (year, race) => {
-  //   const numYear = Number(year);
-  //   if (numYear > 2020) {
-  //     const sprint = await fetchSprint(year, race);
-  //     if (sprint.MRData.RaceTable.Races.length > 0) {
-  //       setSprint(sprint);
-  //     } else {
-  //       console.log("No Sprint results for this combination");
-  //     }
-  //   } else {
-  //     console.log("There was no Sprint at this race event");
-  //   }
-  // }
-
-  // useEffect(() => {
-  //   if (circuitInfo) {
-  //     // qualiResults(year, circuitInfo[0].round);
-  //     // raceResults(year, circuitInfo[0].round);
-  //     // sprintResults(year, circuitInfo[0].round);
-  //   }
-  // }, [circuitInfo]);
+  }, [sprintQuery]);
 
   const options = useRef();
 
