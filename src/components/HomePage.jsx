@@ -11,7 +11,7 @@ import PositionsGraph from "./PositionsGraph";
 import DriverStandingsTable from "./DriverStandingsTable";
 import { racePositionsData } from "@/functions/racePositionsData";
 import ConstructorStandingsTable from "./ConstructorStandingsTable";
-import { useCircuitInfoStore, useConstructorStandingsStore, useConstructorStore, useDriverStandingsStore, useDriverStore, useQualiStore, useRacePositionsStore, useRaceResultStore, useRacesStore, useShowPositionsStore, useShowQualiStore, useShowRaceStore, useShowSprintStore, useSprintStore, useYearStore } from "@/store";
+import { useCircuitInfoStore, useConstructorStandingsStore, useConstructorStore, useDriverStandingsStore, useDriverStore, useQualiStore, useRacePositionsStore, useRaceResultStore, useRacesStore, useShowDriverStandingsStore, useShowPositionsStore, useShowQualiStore, useShowRaceStore, useShowSprintStore, useSprintStore, useYearStore } from "@/store";
 
 const HomePage = () => {
 
@@ -41,6 +41,7 @@ const HomePage = () => {
   const constructorStandings = useConstructorStandingsStore(store => store.constructorStandings);
   const setConstructorStandings = useConstructorStandingsStore(store => store.setConstructorStandings);
   const constructor = useConstructorStore(store => store.constructor);
+  const setShowDriverStandings = useShowDriverStandingsStore(store => store.setShowDriverStandings);
 
   const handleRaceSelect = (e) => {
     e.preventDefault();

@@ -7,7 +7,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
-import { useDriverStandingsStore, useDriverStore } from "@/store";
+import { useDriverStandingsStore, useDriverStore, useShowDriverStandingsStore } from "@/store";
 import { flexRender, getCoreRowModel, useReactTable } from "@tanstack/react-table"
 import { useEffect, useState } from "react";
 
@@ -15,6 +15,8 @@ const DriverStandingsTable = () => {
 
   const driverStandings = useDriverStandingsStore(store => store.driverStandings);
   const driver = useDriverStore(store => store.driver);
+  const showDriverStandings = useShowDriverStandingsStore(store => store.showDriverStandings);
+  const setShowDriverStandings = useShowDriverStandingsStore(store => store.setShowDriverStandings);
 
   const [allData, setAllData] = useState(driverStandings.StandingsLists[0].DriverStandings);
   const [data, setData] = useState(driverStandings.StandingsLists[0].DriverStandings);
@@ -69,8 +71,11 @@ const DriverStandingsTable = () => {
   }, [driver]);
 
   return (
-    <Table className="w-1/3 mx-4">
-      {table.getHeaderGroups().map(headerGroup => 
+    <div>
+      {showDriverStandings &&
+      <div> 
+        <Table className="w-1/3 mx-4">
+        {table.getHeaderGroups().map(headerGroup => 
           <TableHeader className="tr" key={headerGroup.id}>
             <TableRow>
               {headerGroup.headers.map(header => 
@@ -80,19 +85,23 @@ const DriverStandingsTable = () => {
                 )}
               </TableRow>
           </TableHeader>)}
-      <TableBody>
-        {table.getRowModel().rows.map(row => 
-          <TableRow key={row.id}>
-            {row.getVisibleCells().map(cell => 
-              <TableCell key={cell.id}>
-                {flexRender(
-                  cell.column.columnDef.cell,
-                  cell.getContext()
-                )}
-              </TableCell>)}
-          </TableRow>)}
-      </TableBody>
-    </Table>
+          <TableBody>
+            {table.getRowModel().rows.map(row => 
+              <TableRow key={row.id}>
+                {row.getVisibleCells().map(cell => 
+                  <TableCell key={cell.id}>
+                    {flexRender(
+                      cell.column.columnDef.cell,
+                      cell.getContext()
+                    )}
+                  </TableCell>)}
+              </TableRow>)}
+          </TableBody>
+        </Table>
+        <button onClick={() => setShowDriverStandings(false) }>Hide Driver Standings</button>
+        </div>
+      }
+    </div>
   )
 }
 

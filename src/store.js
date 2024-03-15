@@ -104,3 +104,14 @@ export const useConstructorStore = create((set) => ({
   setConstructor: (constructor) => set({ constructor: constructor }),
   resetConstructor: () => set({ constructor: undefined })
 }));
+
+export const useShowDriverStandingsStore = create((set) => ({
+  showDriverStandings: true,
+  setShowDriverStandings: (showDriverStandings) => set({ showDriverStandings: showDriverStandings }),
+  resetShowDriverStandings: () => set({ showDriverStandings: true })
+}));
+
+export const useShowConstructorStandingsStore = create((set) => ({
+  showConstructorStandings: true,
+  setShowConstructorStandings: (showConstructorStandings) => set({ showConstructorStandings : showConstructorStandings }),
+}));
