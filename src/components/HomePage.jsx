@@ -116,30 +116,74 @@ const HomePage = () => {
               color: "black"
             }
           },
-          // autocolors : {
-          //   mode: "label",
-          // },
           colors: {
             enabled: true
           }
         },
         scales: {
           y: {
-            min: 1,
+            min: 0,
             max: Number(numOfDrivers),
             reverse: true,
-            display: true,
             position: "left",
+            title: {
+              text: "Race Position",
+              display: true,
+              color: "black"
+            },
+            ticks: {
+              color: "black",
+              stepSize: 1,
+              autoSkip: false,
+              callback: function(value) {
+                return value === 0 ? "" : this.getLabelForValue(value) 
+              }
+            }
           },
           right: {
-            min: 1,
+            min: 0,
             max: Number(numOfDrivers),
             reverse: true,
             display: true,
-            position: "right"
+            position: "right",
+            title: {
+              text: "Race Position",
+              display: true,
+              color: "black"
+            },
+            ticks: {
+              color: "black",
+              stepSize: 1,
+              autoSkip: false,
+              callback: function(value) {
+                return value === 0 ? "" : this.getLabelForValue(value)
+              }
+            }
           },
           top: {
             position: "top",
+            title: {
+              text: "Laps",
+              display: true,
+              color: "black"
+            },
+            ticks: {
+              color: "black",
+              stepSize: 1,
+              autoSkip: false
+            }
+          },
+          x: {
+            title: {
+              text: "Laps",
+              display: true,
+              color: "black"
+            },
+            ticks: {
+              color: "black",
+              stepSize: 1,
+              autoSkip: false
+            }
           }
         },
         layout: {
@@ -159,7 +203,7 @@ const HomePage = () => {
 
   return (
     <div>
-      <div className="mx-auto w-1/3 flex justify-between">
+      <div className="mx-auto w-1/3 flex justify-center">
         <YearSelector />
           {year !== "" && 
             <RaceSelector handleRaceSelect={handleRaceSelect} />
