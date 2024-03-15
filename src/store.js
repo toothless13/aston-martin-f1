@@ -114,4 +114,5 @@ export const useShowDriverStandingsStore = create((set) => ({
 export const useShowConstructorStandingsStore = create((set) => ({
   showConstructorStandings: true,
   setShowConstructorStandings: (showConstructorStandings) => set({ showConstructorStandings : showConstructorStandings }),
+  resetShowConstructorStandings: () => set({ showConstructorStandings: true })
 }));

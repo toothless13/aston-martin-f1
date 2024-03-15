@@ -7,7 +7,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
-import { useConstructorStore, useDriverStore, useRaceResultStore, useShowDriverStandingsStore } from "@/store";
+import { useConstructorStore, useDriverStore, useRaceResultStore, useShowConstructorStandingsStore, useShowDriverStandingsStore } from "@/store";
 import { flexRender, getCoreRowModel, useReactTable } from "@tanstack/react-table"
 import { useState } from "react";
 
@@ -17,6 +17,7 @@ const RaceTable = () => {
   const setDriver = useDriverStore(store => store.setDriver);
   const setConstructor = useConstructorStore(store => store.setConstructor);
   const resetShowDriverStandings = useShowDriverStandingsStore(store => store.resetShowDriverStandings);
+  const resetShowConstructorStandings = useShowConstructorStandingsStore(store => store.resetShowConstructorStandings);
   const [data, setData] = useState(raceResult.MRData.RaceTable.Races[0].Results);
 
   const columns = [
@@ -33,7 +34,7 @@ const RaceTable = () => {
     {
       accessorFn: row => `${row.Constructor.name}`,
       header: "Constructor",
-      cell: (props) => <p onClick={() => setConstructor(props.getValue())} className="hover:cursor-pointer">{props.getValue()}</p>
+      cell: (props) => <p onClick={() => {setConstructor(props.getValue()); resetShowConstructorStandings();}} className="hover:cursor-pointer">{props.getValue()}</p>
     },
     {
       accessorFn: row => `${row.grid}`,
