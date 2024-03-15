@@ -30,7 +30,7 @@ const DriverStandingsTable = () => {
     {
       accessorFn: row => `${row.Driver.givenName} ${row.Driver.familyName}`,
       header: "Driver",
-      cell: (props) => <p onClick={() => console.log(props.getValue())} className="hover:cursor-pointer" >{props.getValue()}</p>
+      cell: (props) => <p>{props.getValue()}</p>
     },
     {
       accessorFn: row => `${row.Constructors[0].name}`,
