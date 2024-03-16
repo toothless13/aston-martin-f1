@@ -37,7 +37,7 @@ const YearSelector = () => {
 
  
   return (
-    <select className="text-black border-amlime border-2 rounded-md m-4 h-8" value={year} onChange={e => {setYear(e.target.value); resetRace(); resetCircuitInfo(); resetQuali(); resetRaceResult(); resetRacePositions(); resetSprint(); resetDriver(); resetShowQuali(); resetShowSprint(); resetShowRace(); resetConstructor(); resetShowPositions(); resetShowDriverStandings(); resetShowConstructorStandings();}}>
+    <select aria-label="Year Selector" className="text-black border-amlime border-2 rounded-md m-4 h-8" value={year} onChange={e => {setYear(e.target.value); resetRace(); resetCircuitInfo(); resetQuali(); resetRaceResult(); resetRacePositions(); resetSprint(); resetDriver(); resetShowQuali(); resetShowSprint(); resetShowRace(); resetConstructor(); resetShowPositions(); resetShowDriverStandings(); resetShowConstructorStandings();}}>
       <option value="" defaultValue hidden>Select a Year</option>
       {raceYears !== undefined && raceYears.map(y => <option key={y.season} value={y.season}>{y.season}</option>)}
     </select>
