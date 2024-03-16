@@ -87,7 +87,7 @@ const SprintTable = () => {
           <TableHeader className="tr" key={headerGroup.id}>
             <TableRow>
               {headerGroup.headers.map(header => 
-                <TableHead className="th" key={header.id}>
+                <TableHead className="th text-white" key={header.id}>
                   {header.column.columnDef.header}
                 </TableHead>
                 )}

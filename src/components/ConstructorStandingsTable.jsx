@@ -75,8 +75,8 @@ const ConstructorStandingsTable = () => {
     {(showConstructorStandings && showComponent) &&
       <div>
         <div className="flex space-x-3">
-          <h2>Constructor Standings</h2>
-          <button onClick={() => setShowConstructorStandings(false)} className="mr-20 ml-0 cursor-pointer cur text-red-700">&times;</button>
+          <h2 className="p-2">Constructor Standings</h2>
+          <button onClick={() => setShowConstructorStandings(false)} className="mr-20 ml-0 cursor-pointer text-red-700 text-xl">&times;</button>
         </div>
         <div className="flex justify-center">
         <Table className="w-1/3 mx-4">
@@ -84,7 +84,7 @@ const ConstructorStandingsTable = () => {
               <TableHeader className="tr" key={headerGroup.id}>
                 <TableRow>
                   {headerGroup.headers.map(header => 
-                    <TableHead className="th" key={header.id}>
+                    <TableHead className="th text-white" key={header.id}>
                       {header.column.columnDef.header}
                     </TableHead>
                     )}
