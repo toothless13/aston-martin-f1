@@ -20,6 +20,7 @@ const ConstructorStandingsTable = () => {
 
   const [allData, setAllData] = useState(constructorStandings.StandingsLists[0].ConstructorStandings);
   const [data, setData] = useState(constructorStandings.StandingsLists[0].ConstructorStandings);
+  const [showComponent, setShowComponent] = useState(false);
 
   const columns = [
     {
@@ -54,20 +55,30 @@ const ConstructorStandingsTable = () => {
   });
 
   useEffect(() => {
-    if (constructorStandings) {
-      setAllData(constructorStandings.StandingsLists[0].ConstructorStandings);
-    }
-  }, [constructorStandings])
-
-  useEffect(() => {
     if (allData) {
       setData(allData.filter(row => `${row.Constructor.name}` === constructor));
+    } else {
+      if (constructorStandings) {
+        setAllData(constructorStandings.StandingsLists[0].ConstructorStandings);
+        setData(allData.filter(row => `${row.Constructor.name}` === constructor));
+      }
     }
-  }, [constructor]);
+    const timeout = setTimeout(() => {
+      setShowComponent(true);
+    }, 250);
+
+    return () => clearTimeout(timeout);
+  }, [constructorStandings, constructor])
+
+  // useEffect(() => {
+  //   if (allData) {
+  //     setData(allData.filter(row => `${row.Constructor.name}` === constructor));
+  //   }
+  // }, [constructor]);
 
   return (
     <div>
-    {showConstructorStandings &&
+    {(showConstructorStandings && showComponent) &&
       <div>
         <div className="flex space-x-3">
           <h2>Constructor Standings</h2>
