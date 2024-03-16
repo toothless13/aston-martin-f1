@@ -280,7 +280,7 @@ const HomePage = () => {
             {(constructorStandings !== undefined && constructor !== undefined && showConstructorStandings === true) && <ScrollArea className="w-full xl:w-3/4 rounded-md z-10 bg-black xl:bg-transparent xl:border-none bg-opacity-80 border-2 border-amlime"><ConstructorStandingsTable /><ScrollBar orientation="horizontal" /></ScrollArea>}
           </div>
         </div>
-      {(showPositions && racePositions !== undefined) && <div className="py-10 flex flex-col items-center"><h2 className="text-lg font-medium pb-2">Race Positions</h2><p>Click on a driver to see their race positions throughout the race</p><p>Hovering over a point on the graph will show the lap number and position</p><PositionsGraph options={options} /></div>}
+      {(showPositions && racePositions !== undefined) && <div className="py-10 flex flex-col items-center" aria-label="Race Positions Tabel" role="figure"><h2 className="text-lg font-medium pb-2">Race Positions</h2><p>Click on a driver to see their race positions throughout the race</p><p>Hovering over a point on the graph will show the lap number and position</p><PositionsGraph options={options} /></div>}
     </div>
   )
 }

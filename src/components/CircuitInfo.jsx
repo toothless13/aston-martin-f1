@@ -15,9 +15,9 @@ const CircuitInfo = () => {
   return (
     <div className="p-4 flex flex-col col-span-2 gap-2 xl:justify-between xl:gap-1">
       <p className="text-2xl font-bold">{circuitInfo[0].raceName}</p>
-      <p>Circuit: {circuitInfo[0].Circuit.circuitName}</p>
-      <p>Round: {circuitInfo[0].round}</p>
-      <p>Date: {newDate}</p>
+      <p className="text-lg font-medium">Circuit: <span className="font-normal text-base">{circuitInfo[0].Circuit.circuitName}</span></p>
+      <p className="text-lg font-medium">Round: <span className="font-normal text-base">{circuitInfo[0].round}</span></p>
+      <p className="text-lg font-medium">Date: <span className="font-normal text-base">{newDate}</span></p>
     </div>
   )
 }
