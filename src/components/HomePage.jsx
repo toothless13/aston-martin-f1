@@ -249,7 +249,7 @@ const HomePage = () => {
                   className="btn mx-2 text-gray-900 bg-gradient-to-r from-lime-200 to-amlime hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-lime-300 dark:focus:ring-lime-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-4 xl:w-[200px] w-40 box-border" 
                   onClick={() => {showRace ? setShowRace(false) : setShowRace(true); setShowQuali(false); setShowSprint(false); resetShowDriverStandings(); resetShowConstructorStandings();}}>
                     {showRace ? "Hide" : "Show"} Race Results
-                </button> : <div>No Race Results for this combination</div>}
+                </button> : <div className="px-2 font-medium">No Race Results for this combination</div>}
             {sprintQuery.data == null ?
              (sprintQuery.isFetching ? 
               <div className="px-2"><PulseLoader color="white" /></div> : null) : 
@@ -268,16 +268,16 @@ const HomePage = () => {
             </div>
           </div>
           <div className="px-4 items-center row-start-2 col-start-1 col-span-9 lg:col-span-4 xl:row-span-2 xl:row-start-1 xl:col-start-4 xl:col-span-5">
-          {(showQuali && raceResult !== undefined) && <div className="w-3/4 h-1/2"><h2>Qualifying Results</h2><ScrollArea className="h-[600px] w-full lg:w-fit rounded-md border p-4"><QualiTable /><ScrollBar orientation="horizontal"/></ScrollArea></div>}
-          {(showSprint && raceResult !== undefined) && <div className="w-3/4 h-1/2"><h2>Sprint Results</h2><ScrollArea className="h-[600px] w-full lg:w-fit rounded-md border p-4"><SprintTable /><ScrollBar orientation="horizontal"/></ScrollArea></div>}
-          {(showRace && raceResult !== undefined) && <div className="w-3/4 h-1/2"><h2>Race Results</h2><p>Click on Driver Name or Constructor to see their position in Driver and Constructor Standings</p><ScrollArea className="h-[600px] w-full lg:w-fit rounded-md border p-4"><RaceTable /><ScrollBar orientation="horizontal"/></ScrollArea></div>}
+          {(showQuali && raceResult !== undefined) && <div className="w-3/4 h-1/2"><h2 className="text-lg font-medium pb-2">Qualifying Results</h2><ScrollArea className="h-[600px] w-full lg:w-fit rounded-md border p-4"><QualiTable /><ScrollBar orientation="horizontal"/></ScrollArea></div>}
+          {(showSprint && raceResult !== undefined) && <div className="w-3/4 h-1/2"><h2 className="text-lg font-medium pb-2">Sprint Results</h2><ScrollArea className="h-[600px] w-full lg:w-fit rounded-md border p-4"><SprintTable /><ScrollBar orientation="horizontal"/></ScrollArea></div>}
+          {(showRace && raceResult !== undefined) && <div className="w-3/4 h-1/2"><h2 className="text-lg font-medium pb-2">Race Results</h2><p className="pb-2">Click on Driver Name or Constructor to see their position in Driver and Constructor Standings</p><ScrollArea className="h-[600px] w-full lg:w-fit rounded-md border p-4"><RaceTable /><ScrollBar orientation="horizontal"/></ScrollArea></div>}
           </div>
           <div className=" col-span-3 h-fit space-y-2 xl:z-auto xl:bg-inherit xl:mt-14 xl:col-start-1 xl:col-span-4 xl:row-start-2 px-4 flex flex-col justify-center">
             {(driverStandings !== undefined && driver !== undefined && showDriverStandings === true) && <ScrollArea className="w-full xl:w-3/4 border-black border-2 rounded-md z-10 bg-amlime xl:bg-transparent xl:border-none bg-opacity-90" ><DriverStandingsTable /><ScrollBar orientation="horizontal" /></ScrollArea>}
             {(constructorStandings !== undefined && constructor !== undefined && showConstructorStandings === true) && <ScrollArea className="w-full xl:w-3/4 rounded-md z-10 bg-black xl:bg-transparent xl:border-none bg-opacity-80 border-2 border-amlime"><ConstructorStandingsTable /><ScrollBar orientation="horizontal" /></ScrollArea>}
           </div>
         </div>
-      {(showPositions && racePositions !== undefined) && <div className="py-10 flex flex-col items-center"><h2>Race Positions</h2><p>Click on a driver to see their race positions throughout the race</p><PositionsGraph options={options} /></div>}
+      {(showPositions && racePositions !== undefined) && <div className="py-10 flex flex-col items-center"><h2 className="text-lg font-medium pb-2">Race Positions</h2><p>Click on a driver to see their race positions throughout the race</p><PositionsGraph options={options} /></div>}
     </div>
   )
 }
