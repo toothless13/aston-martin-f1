@@ -116,3 +116,9 @@ export const useShowConstructorStandingsStore = create((set) => ({
   setShowConstructorStandings: (showConstructorStandings) => set({ showConstructorStandings : showConstructorStandings }),
   resetShowConstructorStandings: () => set({ showConstructorStandings: false })
 }));
+
+export const useErrorStore = create((set) => ({
+  error: {},
+  setError: (error) => set({ error: error }),
+  resetError: () => set({ error: {} })
+}));
