@@ -125,5 +125,6 @@ export const useErrorStore = create((set) => ({
 
 export const useLoadingStore = create((set) => ({
   loading: false,
-  setLoading: (loading) => set({ loading: loading })
+  setLoading: (loading) => set({ loading: loading }),
+  resetLoading: () => set({ loading: false })
 }));

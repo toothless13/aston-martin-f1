@@ -1,5 +1,5 @@
 import { fetchRaces } from "@/api/requests";
-import { useRaceStore, useRacesStore, useQualiStore, useRaceResultStore, useSprintStore, useShowQualiStore, useShowSprintStore, useShowRaceStore, useRacePositionsStore, useDriverStore, useConstructorStore, useShowPositionsStore, useYearStore, useShowDriverStandingsStore, useShowConstructorStandingsStore } from "@/store";
+import { useRaceStore, useRacesStore, useQualiStore, useRaceResultStore, useSprintStore, useShowQualiStore, useShowSprintStore, useShowRaceStore, useRacePositionsStore, useDriverStore, useConstructorStore, useShowPositionsStore, useYearStore, useShowDriverStandingsStore, useShowConstructorStandingsStore, useLoadingStore } from "@/store";
 import { useQuery } from "@tanstack/react-query";
 import { useEffect } from "react";
 
@@ -22,6 +22,7 @@ const RaceSelector = ({ handleRaceSelect }) => {
   const setRaces = useRacesStore(store => store.setRaces);
   const resetShowDriverStandings = useShowDriverStandingsStore(store => store.resetShowDriverStandings);
   const resetShowConstructorStandings = useShowConstructorStandingsStore(store => store.resetShowConstructorStandings);
+  const resetLoading = useLoadingStore(store => store.resetLoading);
 
   const racesQuery = useQuery({
     queryKey: ["races", year],
@@ -36,7 +37,7 @@ const RaceSelector = ({ handleRaceSelect }) => {
   }, [racesQuery]);
 
   return (
-        <select aria-label="Race Selector" className="text-black border-amlime border-2 rounded-md m-4 h-8" value={race} onChange={e => {setRace(e.target.value); handleRaceSelect(e); resetQuali(); resetRaceResult(); resetRacePositions(); resetSprint(); resetDriver(); resetShowQuali(); resetShowSprint(); resetShowRace(); resetConstructor(); resetShowPositions(); resetShowDriverStandings(); resetShowConstructorStandings();}}>
+        <select aria-label="Race Selector" className="text-black border-amlime border-2 rounded-md m-4 h-8" value={race} onChange={e => {setRace(e.target.value); handleRaceSelect(e); resetQuali(); resetRaceResult(); resetRacePositions(); resetSprint(); resetDriver(); resetShowQuali(); resetShowSprint(); resetShowRace(); resetConstructor(); resetShowPositions(); resetShowDriverStandings(); resetShowConstructorStandings(); resetLoading();}}>
           <option value="" defaultValue hidden>Select a Race</option>
           {races.map(r => <option key={r.round} value={r.raceName}>{r.raceName}</option>)}
         </select>

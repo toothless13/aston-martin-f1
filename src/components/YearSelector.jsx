@@ -1,4 +1,4 @@
-import { useCircuitInfoStore, useQualiStore, useRaceResultStore, useRaceStore, useShowQualiStore, useShowSprintStore, useShowRaceStore, useSprintStore, useYearStore, useRacePositionsStore, useDriverStore, useConstructorStore, useShowPositionsStore, useShowDriverStandingsStore, useShowConstructorStandingsStore } from "@/store";
+import { useCircuitInfoStore, useQualiStore, useRaceResultStore, useRaceStore, useShowQualiStore, useShowSprintStore, useShowRaceStore, useSprintStore, useYearStore, useRacePositionsStore, useDriverStore, useConstructorStore, useShowPositionsStore, useShowDriverStandingsStore, useShowConstructorStandingsStore, useLoadingStore } from "@/store";
 import { fetchYears } from "@/api/requests";
 import { useQuery } from "@tanstack/react-query";
 
@@ -20,6 +20,7 @@ const YearSelector = () => {
   const resetShowPositions = useShowPositionsStore(store => store.resetShowPositions);
   const resetShowDriverStandings = useShowDriverStandingsStore(store => store.resetShowDriverStandings);
   const resetShowConstructorStandings = useShowConstructorStandingsStore(store => store.resetShowConstructorStandings);
+  const resetLoading = useLoadingStore(store => store.resetLoading);
 
   const { data: raceYears, status: yearsStatus, error: yearsError } = useQuery({
     queryFn: fetchYears,
@@ -37,7 +38,7 @@ const YearSelector = () => {
 
  
   return (
-    <select aria-label="Year Selector" className="text-black border-amlime border-2 rounded-md m-4 h-8" value={year} onChange={e => {setYear(e.target.value); resetRace(); resetCircuitInfo(); resetQuali(); resetRaceResult(); resetRacePositions(); resetSprint(); resetDriver(); resetShowQuali(); resetShowSprint(); resetShowRace(); resetConstructor(); resetShowPositions(); resetShowDriverStandings(); resetShowConstructorStandings();}}>
+    <select aria-label="Year Selector" className="text-black border-amlime border-2 rounded-md m-4 h-8" value={year} onChange={e => {setYear(e.target.value); resetRace(); resetCircuitInfo(); resetQuali(); resetRaceResult(); resetRacePositions(); resetSprint(); resetDriver(); resetShowQuali(); resetShowSprint(); resetShowRace(); resetConstructor(); resetShowPositions(); resetShowDriverStandings(); resetShowConstructorStandings(); resetLoading();}}>
       <option value="" defaultValue hidden>Select a Year</option>
       {raceYears !== undefined && raceYears.map(y => <option key={y.season} value={y.season}>{y.season}</option>)}
     </select>

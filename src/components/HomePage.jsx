@@ -109,9 +109,9 @@ const HomePage = () => {
   const options = useRef();
 
   useEffect(() => {
-    setLoading(true);
     const numYear = Number(year);
     if (raceResult && numYear > 1995) {
+      setLoading(true);
       racePositionsData(raceResult, setLoading).then(res => setRacePositions(res));
       const numOfDrivers = raceResult.MRData.total;
       options.current = {
@@ -271,7 +271,7 @@ const HomePage = () => {
                 onClick={() => showPositions ? setShowPositions(false) : setShowPositions(true)}>
                   {showPositions ? "Hide" : "Show"} Race Positions
               </button>} */}
-              {raceResultQuery.data == null || loading  ? 
+              {/* {raceResultQuery.data == null || loading ? 
                 (loading ? 
                   <div className="px-2"><PulseLoader color="white" /></div> : null) : 
                     racePositions !== undefined ? 
@@ -279,7 +279,12 @@ const HomePage = () => {
                     className="btn mx-2 text-gray-900 bg-gradient-to-r from-lime-200 to-amlime hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-lime-300 dark:focus:ring-lime-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-4 xl:w-[200px] w-40 box-border" 
                     onClick={() => showPositions ? setShowPositions(false) : setShowPositions(true)}>
                       {showPositions ? "Hide" : "Show"} Race Positions
-                  </button> : null}
+                  </button> : null} */}
+              {loading ? <div className="px-2"><PulseLoader color="white" /></div> : racePositions !== undefined && <button 
+                    className="btn mx-2 text-gray-900 bg-gradient-to-r from-lime-200 to-amlime hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-lime-300 dark:focus:ring-lime-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-4 xl:w-[200px] w-40 box-border" 
+                    onClick={() => showPositions ? setShowPositions(false) : setShowPositions(true)}>
+                      {showPositions ? "Hide" : "Show"} Race Positions
+                  </button>}
             </div>
           </div>
           <div className="px-4 items-center row-start-2 col-start-1 col-span-9 lg:col-span-4 xl:row-span-2 xl:row-start-1 xl:col-start-4 xl:col-span-5">
