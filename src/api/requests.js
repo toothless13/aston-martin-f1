@@ -3,7 +3,7 @@ import axios from "axios";
 export function fetchYears()  {
   try {
     return axios.get("https://ergast.com/api/f1/seasons.json?limit=80")
-    .then(res => res.data.MRData.SeasonTable.Seasons);
+    .then(res => res.data.MRData.SeasonTable.Seasons.reverse());
   } catch (error) {
     console.log(error.message);
   }

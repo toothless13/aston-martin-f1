@@ -219,10 +219,39 @@ const HomePage = () => {
               {circuitInfo !== undefined && <CircuitInfo /> }
             </div>
             <div className="flex flex-row h-fit col-start-3 col-span-4 p-4 justify-center xl:grid  xl:grid-rows-4 xl:gap-14 xl:flex-col xl:justify-between xl:h-40 xl:items-start xl:p-2">
-            {qualiQuery.data == null ? (qualiQuery.isFetching ? <div className="px-2"><PulseLoader color="white" /></div> : null) : quali !== undefined ? <button className="btn mx-2 text-gray-900 bg-gradient-to-r from-lime-200 to-amlime hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-lime-300 dark:focus:ring-lime-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-4 xl:w-[200px] w-40 box-border" onClick={() => {showQuali ? setShowQuali(false) : setShowQuali(true); setShowSprint(false); setShowRace(false);}}>{showQuali ? "Hide" : "Show"} Qualifying Results</button> : null}
-            {raceResultQuery.data == null ? (raceResultQuery.isFetching ? <div className="px-2"><PulseLoader color="white" /></div> : null) : <button className="btn mx-2 text-gray-900 bg-gradient-to-r from-lime-200 to-amlime hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-lime-300 dark:focus:ring-lime-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-4 xl:w-[200px] w-40 box-border" onClick={() => {showRace ? setShowRace(false) : setShowRace(true); setShowQuali(false); setShowSprint(false); resetShowDriverStandings(); resetShowConstructorStandings();}}>{showRace ? "Hide" : "Show"} Race Results</button>}
-            {sprintQuery.data == null ? (sprintQuery.isFetching ? <div className="px-2"><PulseLoader color="white" /></div> : null) : sprint !== undefined && <button className="btn mx-2 text-gray-900 bg-gradient-to-r from-lime-200 to-amlime hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-lime-300 dark:focus:ring-lime-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-4 xl:w-[200px] w-40 box-border" onClick={() => {showSprint ? setShowSprint(false) : setShowSprint(true); setShowQuali(false); setShowRace(false);}}>{showSprint ? "Hide" : "Show"} Sprint Results</button>}  
-            {racePositions !== undefined && <button className="btn mx-2 text-gray-900 bg-gradient-to-r from-lime-200 to-amlime hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-lime-300 dark:focus:ring-lime-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-4 xl:w-[200px] w-40 box-border" onClick={() => showPositions ? setShowPositions(false) : setShowPositions(true)}>{showPositions ? "Hide" : "Show"} Race Positions</button>}
+              {qualiQuery.data == null ? 
+                (qualiQuery.isFetching ? 
+                  <div className="px-2"><PulseLoader color="white" /></div> : null) : 
+                    quali !== undefined ? 
+                      <button 
+                        className="btn mx-2 text-gray-900 bg-gradient-to-r from-lime-200 to-amlime hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-lime-300 dark:focus:ring-lime-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-4 xl:w-[200px] w-40 box-border" 
+                          onClick={() => {showQuali ? setShowQuali(false) : setShowQuali(true); setShowSprint(false); setShowRace(false);}}>
+                            {showQuali ? "Hide" : "Show"} Qualifying Results
+                      </button> : null}
+            {raceResultQuery.data == null ?
+             (raceResultQuery.isFetching ? 
+              <div className="px-2"><PulseLoader color="white" /></div> : null) : 
+              raceResult !== undefined ?
+                <button 
+                  className="btn mx-2 text-gray-900 bg-gradient-to-r from-lime-200 to-amlime hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-lime-300 dark:focus:ring-lime-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-4 xl:w-[200px] w-40 box-border" 
+                  onClick={() => {showRace ? setShowRace(false) : setShowRace(true); setShowQuali(false); setShowSprint(false); resetShowDriverStandings(); resetShowConstructorStandings();}}>
+                    {showRace ? "Hide" : "Show"} Race Results
+                </button> : <div>No Race Results for this combination</div>}
+            {sprintQuery.data == null ?
+             (sprintQuery.isFetching ? 
+              <div className="px-2"><PulseLoader color="white" /></div> : null) : 
+                sprint !== undefined && 
+                  <button 
+                    className="btn mx-2 text-gray-900 bg-gradient-to-r from-lime-200 to-amlime hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-lime-300 dark:focus:ring-lime-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-4 xl:w-[200px] w-40 box-border" 
+                    onClick={() => {showSprint ? setShowSprint(false) : setShowSprint(true); setShowQuali(false); setShowRace(false);}}>
+                      {showSprint ? "Hide" : "Show"} Sprint Results
+                  </button>}  
+            {racePositions !== undefined && 
+              <button 
+                className="btn mx-2 text-gray-900 bg-gradient-to-r from-lime-200 to-amlime hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-lime-300 dark:focus:ring-lime-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-4 xl:w-[200px] w-40 box-border" 
+                onClick={() => showPositions ? setShowPositions(false) : setShowPositions(true)}>
+                  {showPositions ? "Hide" : "Show"} Race Positions
+              </button>}
             </div>
           </div>
           <div className="px-4 items-center row-start-2 col-start-1 col-span-9 lg:col-span-4 xl:row-span-2 xl:row-start-1 xl:col-start-4 xl:col-span-5">
