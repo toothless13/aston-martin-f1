@@ -82,7 +82,10 @@ const DriverStandingsTable = () => {
       <div>
         <div className="flex space-x-3">
         <h2 className="p-2 text-black xl:text-white text-lg">Driver Standings</h2>
-        <button onClick={() => {setShowDriverStandings(false); }} className="mr-20 ml-0 cursor-pointer cur text-red-700 text-xl">&times;</button>
+        {/* <button onClick={() => {setShowDriverStandings(false); }} className="mr-20 ml-0 cursor-pointer cur text-red-700 text-xl">&times;</button> */}
+        <button onClick={() => {setShowDriverStandings(false); }} className="inline-flex items-center h-8 px-3 mt-1 text-red-700 transition-colors duration-150 bg-opacity-80 bg-white rounded-md focus:shadow-outline hover:bg-red-700 hover:text-white">
+          <span>Close</span>
+        </button>
         </div>
         <div className="flex justify-center">
         <Table className="w-1/3 mx-4 text-black xl:text-white">
