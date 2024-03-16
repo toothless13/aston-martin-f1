@@ -76,13 +76,6 @@ const DriverStandingsTable = () => {
     return () => clearTimeout(timeout);
   }, [driverStandings, driver])
 
-
-  // useEffect(() => {
-  //   if (allData) {
-  //     setData(allData.filter(row => `${row.Driver.givenName} ${row.Driver.familyName}` === driver));
-  //   }
-  // }, [driver]);
-
   return (
     <div>
       {(showDriverStandings && showComponent) &&

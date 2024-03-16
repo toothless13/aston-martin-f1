@@ -70,12 +70,6 @@ const ConstructorStandingsTable = () => {
     return () => clearTimeout(timeout);
   }, [constructorStandings, constructor])
 
-  // useEffect(() => {
-  //   if (allData) {
-  //     setData(allData.filter(row => `${row.Constructor.name}` === constructor));
-  //   }
-  // }, [constructor]);
-
   return (
     <div>
     {(showConstructorStandings && showComponent) &&
