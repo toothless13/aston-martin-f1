@@ -114,6 +114,19 @@ const HomePage = () => {
 
       options.current = {
         plugins: {
+          tooltip: {
+            callbacks: {
+              beforeTitle: function(context) {
+                return context[0].dataset.label;
+              },
+              title: function(context) {
+                return `Lap ${context[0].label}`
+              },
+              label: function(context) {
+                return ` Position: ${context.formattedValue}`
+              }
+            },
+          },
           legend: {
             display: true,
             labels: {
