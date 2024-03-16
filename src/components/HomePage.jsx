@@ -11,7 +11,7 @@ import PositionsGraph from "./PositionsGraph";
 import DriverStandingsTable from "./DriverStandingsTable";
 import { racePositionsData } from "@/functions/racePositionsData";
 import ConstructorStandingsTable from "./ConstructorStandingsTable";
-import { useCircuitInfoStore, useConstructorStandingsStore, useConstructorStore, useDriverStandingsStore, useDriverStore, useQualiStore, useRacePositionsStore, useRaceResultStore, useRacesStore, useShowConstructorStandingsStore, useShowDriverStandingsStore, useShowPositionsStore, useShowQualiStore, useShowRaceStore, useShowSprintStore, useSprintStore, useYearStore } from "@/store";
+import { useCircuitInfoStore, useConstructorStandingsStore, useConstructorStore, useDriverStandingsStore, useDriverStore, useLoadingStore, useQualiStore, useRacePositionsStore, useRaceResultStore, useRacesStore, useShowConstructorStandingsStore, useShowDriverStandingsStore, useShowPositionsStore, useShowQualiStore, useShowRaceStore, useShowSprintStore, useSprintStore, useYearStore } from "@/store";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import PulseLoader from "react-spinners/PulseLoader";
 
@@ -47,6 +47,8 @@ const HomePage = () => {
   const showConstructorStandings = useShowConstructorStandingsStore(store => store.showConstructorStandings);
   const resetShowDriverStandings = useShowDriverStandingsStore(store => store.resetShowDriverStandings);
   const resetShowConstructorStandings = useShowConstructorStandingsStore(store => store.resetShowConstructorStandings);
+  const loading = useLoadingStore(store => store.loading);
+  const setLoading = useLoadingStore(store => store.setLoading);
 
   const handleRaceSelect = (e) => {
     e.preventDefault();
@@ -107,11 +109,11 @@ const HomePage = () => {
   const options = useRef();
 
   useEffect(() => {
+    setLoading(true);
     const numYear = Number(year);
     if (raceResult && numYear > 1995) {
-      racePositionsData(raceResult).then(res => setRacePositions(res));
+      racePositionsData(raceResult, setLoading).then(res => setRacePositions(res));
       const numOfDrivers = raceResult.MRData.total;
-
       options.current = {
         onHover: function(event, chartElement) {
           event.native.target.style.cursor = chartElement[0] ? "pointer" : "default";
@@ -261,13 +263,23 @@ const HomePage = () => {
                     className="btn mx-2 text-gray-900 bg-gradient-to-r from-lime-200 to-amlime hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-lime-300 dark:focus:ring-lime-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-4 xl:w-[200px] w-40 box-border" 
                     onClick={() => {showSprint ? setShowSprint(false) : setShowSprint(true); setShowQuali(false); setShowRace(false);}}>
                       {showSprint ? "Hide" : "Show"} Sprint Results
-                  </button>}  
-            {racePositions !== undefined && 
+                  </button>}
+            {/* {loading ? console.log("Loading") : console.log("Loaded")} */}
+            {/* {racePositions !== undefined && 
               <button 
                 className="btn mx-2 text-gray-900 bg-gradient-to-r from-lime-200 to-amlime hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-lime-300 dark:focus:ring-lime-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-4 xl:w-[200px] w-40 box-border" 
                 onClick={() => showPositions ? setShowPositions(false) : setShowPositions(true)}>
                   {showPositions ? "Hide" : "Show"} Race Positions
-              </button>}
+              </button>} */}
+              {raceResultQuery.data == null || loading  ? 
+                (loading ? 
+                  <div className="px-2"><PulseLoader color="white" /></div> : null) : 
+                    racePositions !== undefined ? 
+                    <button 
+                    className="btn mx-2 text-gray-900 bg-gradient-to-r from-lime-200 to-amlime hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-lime-300 dark:focus:ring-lime-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-4 xl:w-[200px] w-40 box-border" 
+                    onClick={() => showPositions ? setShowPositions(false) : setShowPositions(true)}>
+                      {showPositions ? "Hide" : "Show"} Race Positions
+                  </button> : null}
             </div>
           </div>
           <div className="px-4 items-center row-start-2 col-start-1 col-span-9 lg:col-span-4 xl:row-span-2 xl:row-start-1 xl:col-start-4 xl:col-span-5">

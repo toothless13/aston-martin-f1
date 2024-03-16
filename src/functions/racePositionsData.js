@@ -1,6 +1,6 @@
 import { fetchLaps } from "@/api/requests";
 
-export const racePositionsData = async (raceResult) => {
+export const racePositionsData = async (raceResult, setLoading) => {
   const year = raceResult.MRData.RaceTable.season;
   const race = raceResult.MRData.RaceTable.round;
   const drivers = raceResult.MRData.RaceTable.Races[0].Results;
@@ -51,7 +51,7 @@ export const racePositionsData = async (raceResult) => {
     });
 
     allDriverLaps[0].hidden = false;
-
+    setLoading(false);
     return await {
       labels: lapsArray,
       datasets: allDriverLaps
