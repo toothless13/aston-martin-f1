@@ -264,22 +264,6 @@ const HomePage = () => {
                     onClick={() => {showSprint ? setShowSprint(false) : setShowSprint(true); setShowQuali(false); setShowRace(false);}}>
                       {showSprint ? "Hide" : "Show"} Sprint Results
                   </button>}
-            {/* {loading ? console.log("Loading") : console.log("Loaded")} */}
-            {/* {racePositions !== undefined && 
-              <button 
-                className="btn mx-2 text-gray-900 bg-gradient-to-r from-lime-200 to-amlime hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-lime-300 dark:focus:ring-lime-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-4 xl:w-[200px] w-40 box-border" 
-                onClick={() => showPositions ? setShowPositions(false) : setShowPositions(true)}>
-                  {showPositions ? "Hide" : "Show"} Race Positions
-              </button>} */}
-              {/* {raceResultQuery.data == null || loading ? 
-                (loading ? 
-                  <div className="px-2"><PulseLoader color="white" /></div> : null) : 
-                    racePositions !== undefined ? 
-                    <button 
-                    className="btn mx-2 text-gray-900 bg-gradient-to-r from-lime-200 to-amlime hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-lime-300 dark:focus:ring-lime-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-4 xl:w-[200px] w-40 box-border" 
-                    onClick={() => showPositions ? setShowPositions(false) : setShowPositions(true)}>
-                      {showPositions ? "Hide" : "Show"} Race Positions
-                  </button> : null} */}
               {loading ? <div className="px-2"><PulseLoader color="white" /></div> : racePositions !== undefined && <button 
                     className="btn mx-2 text-gray-900 bg-gradient-to-r from-lime-200 to-amlime hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-lime-300 dark:focus:ring-lime-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-4 xl:w-[200px] w-40 box-border" 
                     onClick={() => showPositions ? setShowPositions(false) : setShowPositions(true)}>
