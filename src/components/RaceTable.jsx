@@ -7,7 +7,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
-import { useConstructorStore, useDriverStore, useRaceResultStore } from "@/store";
+import { useConstructorStore, useDriverStore, useRaceResultStore, useShowConstructorStandingsStore, useShowDriverStandingsStore } from "@/store";
 import { flexRender, getCoreRowModel, useReactTable } from "@tanstack/react-table"
 import { useState } from "react";
 
@@ -16,6 +16,8 @@ const RaceTable = () => {
   const raceResult = useRaceResultStore(store => store.raceResult);
   const setDriver = useDriverStore(store => store.setDriver);
   const setConstructor = useConstructorStore(store => store.setConstructor);
+  const setShowDriverStandings = useShowDriverStandingsStore(store => store.setShowDriverStandings);
+  const setShowConstructorStandings = useShowConstructorStandingsStore(store => store.setShowConstructorStandings);
   const [data, setData] = useState(raceResult.MRData.RaceTable.Races[0].Results);
 
   const columns = [
@@ -27,12 +29,12 @@ const RaceTable = () => {
     {
       accessorFn: row => `${row.Driver.givenName} ${row.Driver.familyName}`,
       header: "Driver",
-      cell: (props) => <p onClick={() => setDriver(props.getValue())} className="hover:cursor-pointer" >{props.getValue()}</p>
+      cell: (props) => <p onClick={() => {setDriver(props.getValue()); setShowDriverStandings(true);}} className="hover:cursor-pointer" >{props.getValue()}</p>
     },
     {
       accessorFn: row => `${row.Constructor.name}`,
       header: "Constructor",
-      cell: (props) => <p onClick={() => setConstructor(props.getValue())} className="hover:cursor-pointer">{props.getValue()}</p>
+      cell: (props) => <p onClick={() => {setConstructor(props.getValue()); setShowConstructorStandings(true);}} className="hover:cursor-pointer">{props.getValue()}</p>
     },
     {
       accessorFn: row => `${row.grid}`,

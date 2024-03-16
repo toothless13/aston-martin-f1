@@ -20,6 +20,7 @@ const DriverStandingsTable = () => {
 
   const [allData, setAllData] = useState(driverStandings.StandingsLists[0].DriverStandings);
   const [data, setData] = useState(driverStandings.StandingsLists[0].DriverStandings);
+  const [showComponent, setShowComponent] = useState(false);
 
   const columns = [
     {
@@ -59,22 +60,37 @@ const DriverStandingsTable = () => {
   });
 
   useEffect(() => {
-    if (driverStandings) {
-      setAllData(driverStandings.StandingsLists[0].DriverStandings);
-    }
-  }, [driverStandings])
-
-  useEffect(() => {
     if (allData) {
       setData(allData.filter(row => `${row.Driver.givenName} ${row.Driver.familyName}` === driver));
+    } else {
+      if (driverStandings) {
+        setAllData(driverStandings.StandingsLists[0].DriverStandings);
+
+        setData(allData.filter(row => `${row.Driver.givenName} ${row.Driver.familyName}` === driver));
+      }
     }
-  }, [driver]);
+    const timeout = setTimeout(() => {
+      setShowComponent(true);
+    }, 250);
+
+    return () => clearTimeout(timeout);
+  }, [driverStandings, driver])
+
+
+  // useEffect(() => {
+  //   if (allData) {
+  //     setData(allData.filter(row => `${row.Driver.givenName} ${row.Driver.familyName}` === driver));
+  //   }
+  // }, [driver]);
 
   return (
     <div>
-      {showDriverStandings &&
+      {(showDriverStandings && showComponent) &&
       <div>
+        <div className="flex space-x-3">
         <h2>Driver Standings</h2>
+        <button onClick={() => {setShowDriverStandings(false); }} className="mr-20 ml-0 cursor-pointer cur text-red-700 align-top">&times;</button>
+        </div>
         <div className="flex justify-center">
         <Table className="w-1/3 mx-4">
         {table.getHeaderGroups().map(headerGroup => 
@@ -100,7 +116,6 @@ const DriverStandingsTable = () => {
               </TableRow>)}
           </TableBody>
         </Table>
-        <button onClick={() => setShowDriverStandings(false)} className="mr-20 ml-0 cursor-pointer cur text-red-700">x</button>
         </div>
         </div>
       }

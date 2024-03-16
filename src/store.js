@@ -106,13 +106,13 @@ export const useConstructorStore = create((set) => ({
 }));
 
 export const useShowDriverStandingsStore = create((set) => ({
-  showDriverStandings: true,
+  showDriverStandings: false,
   setShowDriverStandings: (showDriverStandings) => set({ showDriverStandings: showDriverStandings }),
-  resetShowDriverStandings: () => set({ showDriverStandings: true })
+  resetShowDriverStandings: () => set({ showDriverStandings: false })
 }));
 
 export const useShowConstructorStandingsStore = create((set) => ({
-  showConstructorStandings: true,
+  showConstructorStandings: false,
   setShowConstructorStandings: (showConstructorStandings) => set({ showConstructorStandings : showConstructorStandings }),
-  resetShowConstructorStandings: () => set({ showConstructorStandings: true })
+  resetShowConstructorStandings: () => set({ showConstructorStandings: false })
 }));

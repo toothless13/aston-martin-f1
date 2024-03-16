@@ -11,9 +11,8 @@ import PositionsGraph from "./PositionsGraph";
 import DriverStandingsTable from "./DriverStandingsTable";
 import { racePositionsData } from "@/functions/racePositionsData";
 import ConstructorStandingsTable from "./ConstructorStandingsTable";
-import { useCircuitInfoStore, useConstructorStandingsStore, useConstructorStore, useDriverStandingsStore, useDriverStore, useQualiStore, useRacePositionsStore, useRaceResultStore, useRacesStore, useShowDriverStandingsStore, useShowPositionsStore, useShowQualiStore, useShowRaceStore, useShowSprintStore, useSprintStore, useYearStore } from "@/store";
+import { useCircuitInfoStore, useConstructorStandingsStore, useConstructorStore, useDriverStandingsStore, useDriverStore, useQualiStore, useRacePositionsStore, useRaceResultStore, useRacesStore, useShowConstructorStandingsStore, useShowDriverStandingsStore, useShowPositionsStore, useShowQualiStore, useShowRaceStore, useShowSprintStore, useSprintStore, useYearStore } from "@/store";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import autocolors from "chartjs-plugin-autocolors";
 
 const HomePage = () => {
 
@@ -43,6 +42,8 @@ const HomePage = () => {
   const constructorStandings = useConstructorStandingsStore(store => store.constructorStandings);
   const setConstructorStandings = useConstructorStandingsStore(store => store.setConstructorStandings);
   const constructor = useConstructorStore(store => store.constructor);
+  const showDriverStandings = useShowDriverStandingsStore(store => store.showDriverStandings);
+  const showConstructorStandings = useShowConstructorStandingsStore(store => store.showConstructorStandings);
 
   const handleRaceSelect = (e) => {
     e.preventDefault();
@@ -209,24 +210,27 @@ const HomePage = () => {
             <RaceSelector handleRaceSelect={handleRaceSelect} />
           }
       </div>
-      <div className="grid grid-cols-10">
-          <div className="flex flex-col col-span-2">
-          {circuitInfo !== undefined && <CircuitInfo /> }
-            <div className="flex flex-col justify-between h-40 items-start p-2">
+      <div className="grid gap-y-4 row-start-1 grid-cols-7 row-auto xl:grid-cols-11">
+          <div className="flex grid-rows-1 lg:flex-row xl:flex-col col-span-7 xl:col-span-2">
+            <div className="col-span-2">
+              {circuitInfo !== undefined && <CircuitInfo /> }
+            </div>
+            <div className="flex flex-row h-fit col-start-3 col-span-4 p-4 justify-center xl:flex-col xl:justify-between xl:h-40 xl:items-start xl:p-2">
             {qualiQuery.data == null ? (qualiQuery.isFetching ? <div>Loading</div> : null) : quali !== undefined ? <button className="btn mx-2 text-gray-900 bg-gradient-to-r from-lime-200 to-amlime hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-lime-300 dark:focus:ring-lime-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-4" onClick={() => {showQuali ? setShowQuali(false) : setShowQuali(true); setShowSprint(false); setShowRace(false);}}>{showQuali ? "Hide" : "Show"} Qualifying Results</button> : null}
             {raceResultQuery.data == null ? (raceResultQuery.isFetching ? <div>Loading</div> : null) : <button className="btn mx-2 text-gray-900 bg-gradient-to-r from-lime-200 to-amlime hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-lime-300 dark:focus:ring-lime-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-4" onClick={() => {showRace ? setShowRace(false) : setShowRace(true); setShowQuali(false); setShowSprint(false);}}>{showRace ? "Hide" : "Show"} Race Results</button>}
             {sprintQuery.data == null ? (sprintQuery.isFetching ? <div>Loading</div> : null) : sprint !== undefined && <button className="btn mx-2 text-gray-900 bg-gradient-to-r from-lime-200 to-amlime hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-lime-300 dark:focus:ring-lime-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-4" onClick={() => {showSprint ? setShowSprint(false) : setShowSprint(true); setShowQuali(false); setShowRace(false);}}>{showSprint ? "Hide" : "Show"} Sprint Results</button>}  
             {racePositions !== undefined && <button className="btn mx-2 text-gray-900 bg-gradient-to-r from-lime-200 to-amlime hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-lime-300 dark:focus:ring-lime-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-4" onClick={() => showPositions ? setShowPositions(false) : setShowPositions(true)}>{showPositions ? "Hide" : "Show"} Race Positions</button>}
             </div>
           </div>
-          <div className="col-start-3 col-span-4">
+          <div className="px-4 items-center row-start-2 col-start-1 col-span-4 xl:row-span-2 xl:row-start-1 xl:col-start-4 xl:col-span-5">
           {(showQuali && raceResult !== undefined) && <div className="w-3/4 h-1/2"><h2>Qualifying Results</h2><ScrollArea className="h-[600px] w-fit rounded-md border p-4"><QualiTable /></ScrollArea></div>}
           {(showSprint && raceResult !== undefined) && <div className="w-3/4 h-1/2"><h2>Sprint Results</h2><ScrollArea className="h-[600px] w-fit rounded-md border p-4"><SprintTable /></ScrollArea></div>}
           {(showRace && raceResult !== undefined) && <div className="w-3/4 h-1/2"><h2>Race Results</h2><p>Click on Driver Name or Constructor to see their position in Driver and Constructor Standings</p><ScrollArea className="h-[600px] w-fit rounded-md border p-4"><RaceTable /></ScrollArea></div>}
           </div>
-          <div className="col-start-8 col-span-3 flex flex-col justify-center">
-            {(driverStandings !== undefined && driver !== undefined && showRace === true) && <DriverStandingsTable />}
-            {(constructorStandings !== undefined && constructor !== undefined && showRace === true) && <ConstructorStandingsTable />}
+          <div className="xl:col-start-1 xl:col-span-4 xl:row-start-2 px-4 flex flex-col justify-center">
+            {(driverStandings !== undefined && driver !== undefined && showDriverStandings === true) && <DriverStandingsTable />}
+            {/* <DriverStandingsTable /> */}
+            {(constructorStandings !== undefined && constructor !== undefined && showConstructorStandings === true) && <ConstructorStandingsTable />}
           </div>
         </div>
       {(showPositions && racePositions !== undefined) && <div className="py-10 flex flex-col items-center"><h2>Race Positions</h2><p>Click on a driver to see their race positions throughout the race</p><PositionsGraph options={options} /></div>}
