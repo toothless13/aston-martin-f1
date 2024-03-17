@@ -21,3 +21,11 @@ When initially opening the project you will need to run `npm install`
 You can then use `npm run preview` to run the build
 
 Alternatively, the project is also hosted here: [Aston Martin F1 Tech Test](https://aston-martin-f1.pages.dev/)
+
+## Docker
+
+Please use `docker pull timcodes13/aston-martin-test` to pull the Docker Image from dockerhub
+
+Project page on dockerhub can be found here: [Aston Martin F1 Tech Test dockerhub](https://hub.docker.com/r/timcodes13/aston-martin-test)
+
+When running the image in a container, please ensure the ports are set to 8080
