@@ -4,7 +4,22 @@
 
 * {
   scrollbar-width: thin;
-  scrollbar-color: #CEDC00 #00665E;
+  scrollbar-color: white #00665E;
+}
+
+*::-webkit-scrollbar {
+  width: 15px;
+}
+
+*::-webkit-scrollbar-track {
+  background: #00665E;
+  border-radius: 5px;
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: white;
+  border-radius: 14px;
+  border: 3px solid #00665E;
 }
  
 @layer base {
