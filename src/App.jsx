@@ -4,7 +4,7 @@ import HomePage from "./components/HomePage"
 function App() {
 
   return (
-    <div className=" min-h-screen text-white bg-amgreen">
+    <div className="min-h-screen w-100vw text-white bg-amgreen">
       <NavBar />
       <HomePage />
     </div>
