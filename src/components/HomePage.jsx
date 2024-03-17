@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { useEffect, useRef, CSSProperties } from "react";
+import { useEffect, useRef } from "react";
 import { fetchConstructorStandings, fetchDriverStandings, fetchQualiResults, fetchRaceResults, fetchSprint } from "@/api/requests";
 import CircuitInfo from "./CircuitInfo";
 import YearSelector from "./YearSelector";
@@ -272,16 +272,52 @@ const HomePage = () => {
             </div>
           </div>
           <div className="px-4 pb-6 items-center row-start-2 col-start-1 col-span-9 lg:col-span-4 xl:row-span-2 xl:row-start-1 xl:col-start-4 xl:col-span-5">
-          {(showQuali && raceResult !== undefined) && <div className="w-3/4 h-1/2"><h2 className="text-lg font-medium pb-2">Qualifying Results</h2><ScrollArea className="h-[600px] w-full lg:w-fit rounded-md border p-4"><QualiTable /><ScrollBar orientation="horizontal"/></ScrollArea></div>}
-          {(showSprint && raceResult !== undefined) && <div className="w-3/4 h-1/2"><h2 className="text-lg font-medium pb-2">Sprint Results</h2><ScrollArea className="h-[600px] w-full lg:w-fit rounded-md border p-4"><SprintTable /><ScrollBar orientation="horizontal"/></ScrollArea></div>}
-          {(showRace && raceResult !== undefined) && <div className="w-3/4 h-1/2"><h2 className="text-lg font-medium pb-2">Race Results</h2><p className="pb-2">Click on Driver Name or Constructor to see their position in Driver and Constructor Standings</p><ScrollArea className="h-[600px] w-full lg:w-fit rounded-md border p-4"><RaceTable /><ScrollBar orientation="horizontal"/></ScrollArea></div>}
+            {(showQuali && raceResult !== undefined) && 
+              <div className="w-3/4 h-1/2">
+                <h2 className="text-lg font-medium pb-2">Qualifying Results</h2>
+                <ScrollArea className="h-[600px] w-full lg:w-fit rounded-md border p-4">
+                  <QualiTable />
+                  <ScrollBar orientation="horizontal"/>
+                </ScrollArea>
+              </div>}
+            {(showSprint && raceResult !== undefined) && 
+              <div className="w-3/4 h-1/2">
+                <h2 className="text-lg font-medium pb-2">Sprint Results</h2>
+                <ScrollArea className="h-[600px] w-full lg:w-fit rounded-md border p-4">
+                  <SprintTable />
+                  <ScrollBar orientation="horizontal"/>
+                </ScrollArea>
+              </div>}
+            {(showRace && raceResult !== undefined) && 
+              <div className="w-3/4 h-1/2">
+                <h2 className="text-lg font-medium pb-2">Race Results</h2>
+                <p className="pb-2">Click on Driver Name or Constructor to see their position in Driver and Constructor Standings</p>
+                <ScrollArea className="h-[600px] w-full lg:w-fit rounded-md border p-4">
+                  <RaceTable />
+                  <ScrollBar orientation="horizontal"/>
+                </ScrollArea>
+              </div>}
           </div>
           <div className=" col-span-3 h-fit space-y-2 xl:z-auto xl:bg-inherit xl:mt-14 xl:col-start-1 xl:col-span-4 xl:row-start-2 px-4 flex flex-col justify-center">
-            {(driverStandings !== undefined && driver !== undefined && showDriverStandings === true) && <ScrollArea className="w-full xl:w-3/4 border-black border-2 rounded-md z-10 bg-amlime xl:bg-transparent xl:border-none bg-opacity-90" ><DriverStandingsTable /><ScrollBar orientation="horizontal" /></ScrollArea>}
-            {(constructorStandings !== undefined && constructor !== undefined && showConstructorStandings === true) && <ScrollArea className="w-full xl:w-3/4 rounded-md z-10 bg-black xl:bg-transparent xl:border-none bg-opacity-80 border-2 border-amlime"><ConstructorStandingsTable /><ScrollBar orientation="horizontal" /></ScrollArea>}
+            {(driverStandings !== undefined && driver !== undefined && showDriverStandings === true) && 
+              <ScrollArea className="w-full xl:w-3/4 border-black border-2 rounded-md z-10 bg-amlime xl:bg-transparent xl:border-none bg-opacity-90" >
+                <DriverStandingsTable />
+                <ScrollBar orientation="horizontal" />
+              </ScrollArea>}
+            {(constructorStandings !== undefined && constructor !== undefined && showConstructorStandings === true) && 
+              <ScrollArea className="w-full xl:w-3/4 rounded-md z-10 bg-black xl:bg-transparent xl:border-none bg-opacity-80 border-2 border-amlime">
+                <ConstructorStandingsTable />
+                <ScrollBar orientation="horizontal" />
+              </ScrollArea>}
           </div>
         </div>
-      {(showPositions && racePositions !== undefined) && <div className="py-10 flex flex-col items-center" aria-label="Race Positions Tabel" role="figure"><h2 className="text-lg font-medium pb-2">Race Positions</h2><p>Click on a driver to see their race positions throughout the race</p><p>Hovering over a point on the graph will show the lap number and position</p><PositionsGraph options={options} /></div>}
+      {(showPositions && racePositions !== undefined) && 
+        <div className="py-10 flex flex-col items-center" aria-label="Race Positions Tabel" role="figure">
+          <h2 className="text-lg font-medium pb-2">Race Positions</h2>
+          <p>Click on a driver to see their race positions throughout the race</p>
+          <p>Hovering over a point on the graph will show the lap number and position</p>
+          <PositionsGraph options={options} />
+        </div>}
     </div>
   )
 }

@@ -1,7 +1,6 @@
 import {
   Table,
   TableBody,
-  // TableCaption,
   TableCell,
   TableHead,
   TableHeader,
@@ -60,23 +59,20 @@ const QualiTable = () => {
     data,
     columns,
     getCoreRowModel: getCoreRowModel(),
-    // initialState: {
-    //   columnVisibility: { "Q3" : false }
-    // }
   });
 
   return (
     <Table className="w-1/3 mx-4">
       {table.getHeaderGroups().map(headerGroup => 
-          <TableHeader className="tr" key={headerGroup.id}>
-            <TableRow>
-              {headerGroup.headers.map(header => 
-                <TableHead className="th text-white" key={header.id}>
-                  {header.column.columnDef.header}
-                </TableHead>
-                )}
-              </TableRow>
-          </TableHeader>)}
+      <TableHeader className="tr" key={headerGroup.id}>
+        <TableRow>
+          {headerGroup.headers.map(header => 
+            <TableHead className="th text-white" key={header.id}>
+              {header.column.columnDef.header}
+            </TableHead>
+            )}
+          </TableRow>
+      </TableHeader>)}
       <TableBody>
         {table.getRowModel().rows.map(row => 
           <TableRow key={row.id}>

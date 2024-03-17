@@ -37,7 +37,29 @@ const RaceSelector = ({ handleRaceSelect }) => {
   }, [racesQuery]);
 
   return (
-        <select aria-label="Race Selector" className="text-black border-amlime border-2 rounded-md m-4 h-8 cursor-pointer" value={race} onChange={e => {setRace(e.target.value); handleRaceSelect(e); resetQuali(); resetRaceResult(); resetRacePositions(); resetSprint(); resetDriver(); resetShowQuali(); resetShowSprint(); resetShowRace(); resetConstructor(); resetShowPositions(); resetShowDriverStandings(); resetShowConstructorStandings(); resetLoading();}}>
+        <select 
+          aria-label="Race Selector" 
+          className="text-black border-amlime border-2 rounded-md m-4 h-8 cursor-pointer" 
+          value={race} 
+          onChange={e => {
+            setRace(e.target.value); 
+            handleRaceSelect(e); 
+            resetQuali(); 
+            resetRaceResult(); 
+            resetRacePositions(); 
+            resetSprint(); 
+            resetDriver(); 
+            resetShowQuali(); 
+            resetShowSprint(); 
+            resetShowRace(); 
+            resetConstructor(); 
+            resetShowPositions(); 
+            resetShowDriverStandings(); 
+            resetShowConstructorStandings(); 
+            resetLoading();
+            }
+          }
+        >
           <option value="" defaultValue hidden>Select a Race</option>
           {races.map(r => <option key={r.round} value={r.raceName}>{r.raceName}</option>)}
         </select>

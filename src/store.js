@@ -52,7 +52,6 @@ export const useSprintStore = create((set) => ({
 
 export const useShowQualiStore = create((set) => ({
   showQuali: false,
-  // setShowQuali: (showQuali) => { showQuali ? set({ showQuali: false }) : set({ showQuali: true })}
   setShowQuali: (showQuali) => set({ showQuali: showQuali }),
   resetShowQuali: () => set({ showQuali: false })
 }));
