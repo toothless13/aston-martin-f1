@@ -18,6 +18,6 @@ There is also a button that will allow the user to see a line chart that shows t
 
 When initially opening the project you will need to run `npm install`
 
-You can then use `npm run dev` to start the development build
+You can then use `npm run preview` to run the build
 
 Alternatively, the project is also hosted here: [Aston Martin F1 Tech Test](https://aston-martin-f1.pages.dev/)
