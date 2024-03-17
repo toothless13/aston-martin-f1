@@ -271,7 +271,7 @@ const HomePage = () => {
                   </button>}
             </div>
           </div>
-          <div className="px-4 items-center row-start-2 col-start-1 col-span-9 lg:col-span-4 xl:row-span-2 xl:row-start-1 xl:col-start-4 xl:col-span-5">
+          <div className="px-4 pb-6 items-center row-start-2 col-start-1 col-span-9 lg:col-span-4 xl:row-span-2 xl:row-start-1 xl:col-start-4 xl:col-span-5">
           {(showQuali && raceResult !== undefined) && <div className="w-3/4 h-1/2"><h2 className="text-lg font-medium pb-2">Qualifying Results</h2><ScrollArea className="h-[600px] w-full lg:w-fit rounded-md border p-4"><QualiTable /><ScrollBar orientation="horizontal"/></ScrollArea></div>}
           {(showSprint && raceResult !== undefined) && <div className="w-3/4 h-1/2"><h2 className="text-lg font-medium pb-2">Sprint Results</h2><ScrollArea className="h-[600px] w-full lg:w-fit rounded-md border p-4"><SprintTable /><ScrollBar orientation="horizontal"/></ScrollArea></div>}
           {(showRace && raceResult !== undefined) && <div className="w-3/4 h-1/2"><h2 className="text-lg font-medium pb-2">Race Results</h2><p className="pb-2">Click on Driver Name or Constructor to see their position in Driver and Constructor Standings</p><ScrollArea className="h-[600px] w-full lg:w-fit rounded-md border p-4"><RaceTable /><ScrollBar orientation="horizontal"/></ScrollArea></div>}
