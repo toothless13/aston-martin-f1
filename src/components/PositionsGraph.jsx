@@ -2,7 +2,7 @@ import { Line } from "react-chartjs-2";
 import { Chart as ChartJS, LineElement, CategoryScale, LinearScale, PointElement, Legend, Tooltip, Colors } from "chart.js";
 import { useRacePositionsStore } from "@/store";
 
-ChartJS.register(LineElement, CategoryScale, LinearScale, PointElement, Legend, Tooltip, autocolors, Colors);
+ChartJS.register(LineElement, CategoryScale, LinearScale, PointElement, Legend, Tooltip, Colors);
 
 const PositionsGraph = ({ options }) => {
   
